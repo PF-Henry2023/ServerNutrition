@@ -25,7 +25,7 @@ module.exports=(sequelize)=>{
             }
         },
         image:{
-            type: Datatypes.STRING,
+            type: DataTypes.STRING,
             allowNull:false,
 
         },
@@ -38,16 +38,16 @@ module.exports=(sequelize)=>{
             }
         },
         password:{
-            type:Datatypes.STRING,
+            type:DataTypes.STRING,
             allowNull:false
 
         },
         colegiatura:{
-            type:Datatypes.STRING,
+            type:DataTypes.STRING,
             allowNull:false
         },
         especialidad:{
-            type:Datatypes.STRING,
+            type:DataTypes.STRING,
             allowNull:false
         }
 
