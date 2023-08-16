@@ -1,4 +1,4 @@
-/* try catch */
+/* handler usuarios */
 const { getAllusuarios } = require("../controllers/usersController");
 
 const getUsuarios = async(req, res) => {
