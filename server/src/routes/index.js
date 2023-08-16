@@ -1,3 +1,4 @@
+//index todas las rutas
 const { Router } = require('express');
 const ususarioHandler=require("./usuariosRouter")
 /* const citaHandler=require("../handlers/usersHandler") */

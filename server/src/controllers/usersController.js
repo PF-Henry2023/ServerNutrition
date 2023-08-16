@@ -1,4 +1,4 @@
-/* logica */
+/* logica de usuarios */
 
 const getAllusuarios=()=>{
 
