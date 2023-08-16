@@ -27,7 +27,7 @@ module.exports = (sequelize) => {
         },
       },
       image: {
-        type: Datatypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
       email: {
@@ -39,7 +39,7 @@ module.exports = (sequelize) => {
         },
       },
       password: {
-        type: Datatypes.STRING,
+        type: DataTypes.STRING,
         allowNull: false,
       },
     },
