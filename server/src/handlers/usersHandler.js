@@ -1,5 +1,5 @@
 /* handler usuarios */
-const { createUserDB } = require("../controllers/usersController");
+const { createUserDB, deleteUser } = require("../controllers/usersController");
 
 //crea un usuario en la DB:
 const createUserHandler = async(req, res) => {
@@ -12,6 +12,16 @@ const createUserHandler = async(req, res) => {
     }
 }
 
+const deleteUserHandler = async(req,res) => {
+    const { id } = req.params;
+    try {
+        await deleteUser(id);
+        res.status(200).send(`Usuario con id: ${id} eliminado con éxito`);
+    } catch (error) {
+        res.status(400).json({error:error.message});
+    }
+}
 module.exports = {
     createUserHandler,
+    deleteUserHandler,
 }
