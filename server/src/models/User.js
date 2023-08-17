@@ -1,7 +1,8 @@
+
 const { DataTypes } = require("sequelize")
 
-const Users = (sequelize) => {
-    sequelize.define('Users', {
+module.exports=(sequelize)=>{
+    sequelize.define('User', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -11,7 +12,7 @@ const Users = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        lastname: {
+        lastName: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -22,7 +23,7 @@ const Users = (sequelize) => {
                 isUrl: true
             }
         },
-        birth: {
+        birthDate: {
             type: DataTypes.DATE,
             allowNull: false
         },
@@ -54,12 +55,6 @@ const Users = (sequelize) => {
             validate: {
                 isIn: [['Masculino', 'Femenino', 'No binario']]
             }
-        },
-        user_rol: {
-            type: DataTypes.STRING,
-            allowNull: false
         }
-    });
+    },{timestamps: false});
 }
-
-module.exports = Users; 

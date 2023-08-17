@@ -1,9 +1,5 @@
 //index todas las rutas
 const { Router } = require('express');
-const ususarioHandler=require("./usuariosRouter")
-/* const citaHandler=require("../handlers/usersHandler") */
-
-
 const router = Router();
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -11,7 +7,8 @@ const router = Router();
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
-router.use("/usuarios",ususarioHandler);
+router.use("/users", usersRouter);
 /* router.use("/cita",citaHandler); */
+
 
 module.exports = router;
