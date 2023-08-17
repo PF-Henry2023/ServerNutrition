@@ -15,8 +15,8 @@ const createUserHandler = async(req, res) => {
 const deleteUserHandler = async(req,res) => {
     const { id } = req.params;
     try {
-        const response = await deleteUser(id);
-        res.status(200).json(response);
+        await deleteUser(id);
+        res.status(200).send(`Usuario con id: ${id} eliminado con éxito`);
     } catch (error) {
         res.status(400).json({error:error.message});
     }

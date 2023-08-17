@@ -11,9 +11,7 @@ const createUserDB = async (name, lastName, email, birthDate, password, phone, i
 
 //Eliminar un usuario:
 const deleteUser = async (id) => {
-    await User.destroy({where: { id: id}})
-    const allUsers = await User.findAll()
-    return (allUsers);
+    await User.destroy({where: { id: id}});
 }
 
 
