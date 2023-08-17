@@ -6,8 +6,8 @@ const { createUserHandler, deleteUserHandler, updateUserHanlder, getUserHandler,
 // endpoints: ruta de acceso a nuestro backend;
 usersRouter.post("/", createUserHandler);
 usersRouter.delete("/:id", deleteUserHandler);
-// usersRouter.put("/:id", updateUserHanlder);
+usersRouter.put("/:id", updateUserHanlder);
 // usersRouter.get("/", getUserHandler);
-// usersRouter.get("/", getAllUsersHandler);
+usersRouter.get("/", getAllUsersHandler);
 
 module.exports = usersRouter;
