@@ -9,6 +9,15 @@ const createUserDB = async (name, lastName, email, birthDate, password, phone, i
     return newUser;
 }
 
+//Eliminar un usuario:
+const deleteUser = async (id) => {
+    await User.destroy({where: { id: id}})
+    const allUsers = await User.findAll()
+    return (allUsers);
+}
+
+
 module.exports = {
     createUserDB,
+    deleteUser,
 }
