@@ -7,11 +7,11 @@ module.exports=(sequelize)=>{
             primaryKey: true,
             autoIncrement: true,
         },
-        nombre: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false
         },
-        apellidos: {
+        lastName: {
             type: DataTypes.STRING,
             allowNull: false
         },
@@ -22,38 +22,38 @@ module.exports=(sequelize)=>{
                 isUrl: true
             }
         },
-        nacimiento: {
+        birthDate: {
             type: DataTypes.DATE,
             allowNull: false
         },
-        contraseña: {
+        password: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 is: /^(?=.*[A-Z])(?=.*\d).{6,8}$/
             }
         },
-        telefono: {
+        phone: {
             type: DataTypes.STRING,
             allowNull: false,
         },
-        imagen: {
+        image: {
             type: DataTypes.STRING,
             allowNull: true,
             validate: {
                 isUrl: true
             }
         },
-        direccion: {
+        address: {
             type: DataTypes.STRING,
             allowNull: true,
         },
-        genero: {
+        gender: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 isIn: [['Masculino', 'Femenino', 'No binario']]
             }
         }
-    },{ timestamps: false });
+    },{timestamps: false});
 }

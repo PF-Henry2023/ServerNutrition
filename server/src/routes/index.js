@@ -10,7 +10,7 @@ const usersRouter = require("./usersRouter");
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
-router.use("/usuarios", usuariosRouter);
+router.use("/users", usersRouter);
 /* router.use("/cita",citaHandler); */
 
 
