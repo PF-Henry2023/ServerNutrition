@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize")
 
-const Users = (sequelize) => {
-    sequelize.define('Users', {
+module.exports=(sequelize)=>{
+    sequelize.define('User', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -55,7 +55,5 @@ const Users = (sequelize) => {
                 isIn: [['Masculino', 'Femenino', 'No binario']]
             }
         }
-    });
+    },{ timestamps: false });
 }
-
-module.exports = Users; 
