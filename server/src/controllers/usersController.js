@@ -16,6 +16,8 @@ const deleteUser = async (id) => {
 
 //Actualizar un usuario:
 const updateUser = async (id) => {
+    const allUsers = getAllUsers();
+    console.log(allUsers);
     // const updateUserData = req.body;
     // const userIndex = users
 }
