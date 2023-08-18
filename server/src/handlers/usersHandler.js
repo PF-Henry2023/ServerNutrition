@@ -24,11 +24,13 @@ const deleteUserHandler = async(req,res) => {
 }
 
 //ruta para actualizar un usuario:
-const updateUserHanlder = async(req,res) => {
+const updateUserHanlder = async (req,res) => {
     const { id } = req.params;
+    const { name, lastName, email, birthDate, password, phone, image, address, gender } = req.body;
     try {
-        await updateUser(id);
-        res.status(200).send(`Usuario con id: ${id} actualizado con éxito`);
+        const userUpdate = await updateUser(id, {name, lastName, email, birthDate, password, phone, image, address, gender });
+        res.status(200).send(`Usuario con id: ${id} actualizado con éxito ${userUpdate}`);
+
     } catch (error) {
         res.status(400).json({error:error.message});
     }
