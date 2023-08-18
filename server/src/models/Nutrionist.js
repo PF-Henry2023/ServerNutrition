@@ -8,7 +8,7 @@ module.exports=(sequelize)=>{
             autoIncrement: true,
             unique: true
         },
-        nombre: {
+        name: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
@@ -16,7 +16,7 @@ module.exports=(sequelize)=>{
                 len: [2, 20]
             }
         },
-        apellido: {
+        lastName: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
@@ -24,7 +24,7 @@ module.exports=(sequelize)=>{
                 len: [2, 20]
             }
         },
-        imagen:{
+        image:{
             type: DataTypes.STRING,
             allowNull:false,
 
@@ -37,7 +37,7 @@ module.exports=(sequelize)=>{
                 isEmail: true
             }
         },
-        contraseña:{
+        password:{
             type:DataTypes.STRING,
             allowNull:false
 
@@ -46,7 +46,7 @@ module.exports=(sequelize)=>{
             type:DataTypes.STRING,
             allowNull:false
         },
-        especialidad:{
+        specialty:{
             type:DataTypes.STRING,
             allowNull:false
         }

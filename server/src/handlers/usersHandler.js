@@ -28,11 +28,10 @@ const updateUserHanlder = async (req,res) => {
     const { id } = req.params;
     const { name, lastName, email, birthDate, password, phone, image, address, gender } = req.body;
     try {
-        const userUpdate = await updateUser(id, {name, lastName, email, birthDate, password, phone, image, address, gender });
-        res.status(200).send(`Usuario con id: ${id} actualizado con éxito ${userUpdate}`);
-
+        await updateUser(id, {name, lastName, email, birthDate, password, phone, image, address, gender });
+        res.status(200).json(`Usuario ${name} actualizado con éxito!`);
     } catch (error) {
-        res.status(400).json({error:error.message});
+        res.status(400).json(`Error al actualizar usuario: `, {error:error.message});
     }
 }
 
