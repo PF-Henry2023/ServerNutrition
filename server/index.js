@@ -1,9 +1,9 @@
-const server = require('./src/app');
-const { sequelize } = require('./src/db');
-const PORT = 3001;
+const server = require("./src/app");
+const { sequelize } = require("./src/db");
+const { DB_HOST, PORT } = process.env;
 
 sequelize.sync({ force: true }).then(() => {
   server.listen(PORT, () => {
-    console.log(`Servidor en línea en el puerto: ${PORT}`);
+    console.log(`Server raise in: ${DB_HOST}:${PORT}`);
   });
 });
