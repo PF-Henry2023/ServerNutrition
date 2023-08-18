@@ -15,30 +15,23 @@ const deleteUser = async (id) => {
 }   
 
 //Actualizar un usuario:
-const updateUser = async (id, {name, lastName, email, birthDate, password, phone, image, address, gender}) => {
-    const allUsers = await getAllUsers();
-    const arrUsers = allUsers.map((el) => el.dataValues)
-    const userId = +id
-    const userData = {
-        name, 
-        lastName, 
-        email, 
-        birthDate, 
-        password, 
-        phone, 
-        image, 
-        address, 
-        gender 
+const updateUser = async (id, infoUser) => {
+    const user = await User.findByPk(id)
+    if(!user) throw Error(`Usuario no existe en la base de datos`);
+    const { name, lastName, email, birthDate, password, phone, image, address, gender } = infoUser;//desestructuro la info del usuario que me llega por body
+    if(user){
+        user.name = name
+        user.lastName = lastName
+        user.email = email
+        user.birthDate = birthDate;
+        user.password = password;
+        user.phone = phone;
+        user.image = image;
+        user.address = address;
+        user.gender = gender;
+        await user.save();
     }
-
-    const userIndex = await arrUsers.findIndex((user) => user.id === userId);
-
-    if(userIndex !== -1){
-        arrUsers[userIndex] = {...arrUsers[userIndex], ...userData};
-    }
-
-    return arrUsers[userIndex];
-
+    return user
 }
 
 //Obtener todos los usuarios:
