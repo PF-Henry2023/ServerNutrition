@@ -1,4 +1,4 @@
-const {DataTypes}=require("sequelize");
+const { DataTypes }=require("sequelize");
 
 module.exports=(sequelize)=>{
     sequelize.define('Nutrionist', {
@@ -8,7 +8,7 @@ module.exports=(sequelize)=>{
             autoIncrement: true,
             unique: true
         },
-        name: {
+        nombre: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
@@ -16,7 +16,7 @@ module.exports=(sequelize)=>{
                 len: [2, 20]
             }
         },
-        lastName: {
+        apellido: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
@@ -24,8 +24,8 @@ module.exports=(sequelize)=>{
                 len: [2, 20]
             }
         },
-        image:{
-            type: Datatypes.STRING,
+        imagen:{
+            type: DataTypes.STRING,
             allowNull:false,
 
         },
@@ -37,21 +37,19 @@ module.exports=(sequelize)=>{
                 isEmail: true
             }
         },
-        password:{
-            type:Datatypes.STRING,
+        contraseña:{
+            type:DataTypes.STRING,
             allowNull:false
 
         },
         colegiatura:{
-            type:Datatypes.STRING,
+            type:DataTypes.STRING,
             allowNull:false
         },
         especialidad:{
-            type:Datatypes.STRING,
+            type:DataTypes.STRING,
             allowNull:false
         }
-
-
-    }, { timestamps: false });
+    }, {timestamps: false});
     
 }
