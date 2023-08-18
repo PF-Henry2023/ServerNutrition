@@ -27,7 +27,6 @@ const deleteUserHandler = async(req,res) => {
 const updateUserHanlder = async (req,res) => {
     const { id } = req.params;
     const { name, lastName, email, birthDate, password, phone, image, address, gender } = req.body;
-    // console.log( name, email );
     try {
         await updateUser(id, {name, lastName, email, birthDate, password, phone, image, address, gender });
         res.status(200).json(`Usuario ${name} actualizado con éxito!`);

@@ -15,6 +15,7 @@ const deleteUser = async (id) => {
 }   
 
 //Actualizar un usuario:
+
 const updateUser = async (id, infoUser) => {
     const user = await User.findByPk(id)
     if(!user) throw Error(`Usuario no existe en la base de datos`);
