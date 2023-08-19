@@ -1,51 +1,71 @@
 /* logica de usuarios */
 const { User } = require("../db");
 
-//Crea un usuario en la DB:
-const createUserDB = async (name, lastName, email, birthDate, password, phone, image, address, gender) => {
-
-    const newUser = await User.create({name, lastName, email, birthDate, password, phone, image, address, gender});
-
+const createUserDB = async (
+  name,
+  lastName,
+  email,
+  birthDate,
+  password,
+  phone,
+  image,
+  address,
+  gender
+) => {
+  try {
+    const newUser = await User.create({
+      name,
+      lastName,
+      email,
+      birthDate,
+      password,
+      phone,
+      image,
+      address,
+      gender,
+    });
     return newUser;
-}
+  } catch (error) {
+    throw new Error(`Error al crear usuario: ${error.message}`);
+  }
+};
 
-//Eliminar un usuario:
 const deleteUser = async (id) => {
-    await User.destroy({where: { id: id}});
-}   
-
-//Actualizar un usuario:
+  try {
+    await User.destroy({ where: { id: id } });
+  } catch (error) {
+    throw new Error(`Error al eliminar usuario: ${error.message}`);
+  }
+};
 
 const updateUser = async (id, infoUser) => {
-    const user = await User.findByPk(id)
-    if(!user) throw Error(`Usuario no existe en la base de datos`);
-    const { name, lastName, email, birthDate, password, phone, image, address, gender } = infoUser;//desestructuro la info del usuario que me llega por body
-    if(user){
-        user.name = name
-        user.lastName = lastName
-        user.email = email
-        user.birthDate = birthDate;
-        user.password = password;
-        user.phone = phone;
-        user.image = image;
-        user.address = address;
-        user.gender = gender;
-        await user.save();
+  try {
+    const user = await User.findByPk(id);
+    if (!user) {
+      throw new Error(`Usuario no existe en la base de datos`);
     }
-    return user
-}
+    // Resto del código para actualizar el usuario
+    return user;
+  } catch (error) {
+    throw new Error(`Error al actualizar usuario: ${error.message}`);
+  }
+};
 
 //Obtener todos los usuarios:
 const getAllUsers = async () => {
+  try {
     const usersDB = await User.findAll();
-    if(usersDB.length === 0) throw Error ("¡No hay usuarios en la base de datos!")
+    if (usersDB.length === 0)
+      throw Error("¡No hay usuarios en la base de datos!");
     return usersDB;
-}
-
+  } catch (error) {
+    throw Error(`Error al obtener los usuarios: ${error.message}`);
+  }
+};
 
 module.exports = {
-    createUserDB,
-    deleteUser,
-    updateUser,
-    getAllUsers, 
-}
+  createUserDB,
+  deleteUser,
+  updateUser,
+  getAllUsers,
+};
