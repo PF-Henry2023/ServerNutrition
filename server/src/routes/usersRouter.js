@@ -1,18 +1,16 @@
 // ruta usuarios
 const { Router } = require("express");
 const usersRouter = Router();
-const {
-  createUserHandler,
-  deleteUserHandler,
-  updateUserHanlder,
-  getAllUsersHandler,
-} = require("../handlers/usersHandler");
-const { validateCreateUser } = require("../Utils/genericFunctions");
+
+const { signup, deleteUserHandler, updateUserHanlder, getAllUsersHandler,login,user,ensureToken } = require("../handlers/usersHandler");
+const { validateCreateUser } = require ("../Utils/genericFunctions");
 
 // endpoints: ruta de acceso a nuestro backend;
-usersRouter.post("/", createUserHandler);
+usersRouter.get("/allUsers", validateCreateUser, getAllUsersHandler);
+usersRouter.get("/", ensureToken, user)
+usersRouter.put("/update", updateUserHanlder);
 usersRouter.delete("/:id", deleteUserHandler);
-usersRouter.put("/:id", updateUserHanlder);
-usersRouter.get("/", getAllUsersHandler);
+usersRouter.post("/signup", signup);
+usersRouter.post("/login", login)
 
 module.exports = usersRouter;

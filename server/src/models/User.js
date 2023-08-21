@@ -29,10 +29,7 @@ module.exports=(sequelize)=>{
         },
         password: {
             type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                is: /^(?=.*[A-Z])(?=.*\d).{6,8}$/
-            }
+            allowNull: true,
         },
         phone: {
             type: DataTypes.STRING,
