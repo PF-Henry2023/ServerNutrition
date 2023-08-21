@@ -1,7 +1,6 @@
 // ruta usuarios
 const { Router } = require("express");
 const usersRouter = Router();
-
 const { signup, deleteUserHandler, updateUserHanlder, getAllUsersHandler,login,user,ensureToken } = require("../handlers/usersHandler");
 const { validateCreateUser } = require ("../Utils/genericFunctions");
 

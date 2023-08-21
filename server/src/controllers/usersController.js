@@ -4,7 +4,8 @@ const { User } = require("../db");
 require("dotenv").config();
 
 //Crea un usuario en la DB:
-const createUserDB = async ({ name, lastName, email, birthDate, password, phone, image, address, gender }) => {
+
+const createUserDB = async ({ name, lastName, email, birthDate, password, phone, address, gender }) => {
     
   
     const passwordHashed = await bcrypt.hash(password, 8);
@@ -19,12 +20,10 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
         birthDate,
         password: passwordHashed,
         phone,
-        image, 
         address, 
         gender
       },
     });
-  
     if (!created) throw new Error("User already exists");
   
     const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
@@ -52,8 +51,6 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
     const user = await User.findOne({ where: { id } });
     return user;
   };
-
-
   //Actualizar un usuario:
   const updateUser = async (token, data) => {
     const allowedFields = ["name", "lastName", "email","password","phone","image","address"];
@@ -73,7 +70,6 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
 const deleteUser = async (id) => {    
     await User.destroy({where: { id: id}});
 }   
-
 //Obtener todos los usuarios:
 const getAllUsers = async () => {
   try {
@@ -92,8 +88,5 @@ module.exports = {
   updateUser,
   getAllUsers, 
   authentication,
-  updateUser,
-  getAllUsers,
-  getUser,
+  getUser
 };
-
