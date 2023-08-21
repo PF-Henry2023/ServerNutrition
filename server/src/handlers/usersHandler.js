@@ -5,9 +5,9 @@ const { createUserDB, deleteUser, updateUser, getAllUsers,authentication,getUser
 
 // ruta crear usuario y generar token.
 const signup = async (req, res) => {
-    const { name, lastName, email, birthDate, password, phone, image, address, gender } = req.body;
+    const { name, lastName, email, birthDate, password, phone, address, gender } = req.body;
     try {
-      const token = await createUserDB({ name, lastName, email, birthDate, password, phone, image, address, gender });
+      const token = await createUserDB({ name, lastName, email, birthDate, password, phone,  address, gender });
       res.status(200).header("authorization", `Bearer ${token}`).json({token});
     } catch (error) {
       res.status(400).json({error:error.message});

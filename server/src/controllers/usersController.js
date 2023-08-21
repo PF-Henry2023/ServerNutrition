@@ -4,7 +4,7 @@ const { User } = require("../db");
 require("dotenv").config();
 
 //Crea un usuario en la DB:
-const createUserDB = async ({ name, lastName, email, birthDate, password, phone, image, address, gender }) => {
+const createUserDB = async ({ name, lastName, email, birthDate, password, phone, address, gender }) => {
     
   
     const passwordHashed = await bcrypt.hash(password, 8);
@@ -19,7 +19,7 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
         birthDate,
         password: passwordHashed,
         phone,
-        image, 
+        
         address, 
         gender
       },
