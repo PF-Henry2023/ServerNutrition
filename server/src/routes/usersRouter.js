@@ -8,7 +8,7 @@ const { validateCreateUser } = require ("../Utils/genericFunctions");
 usersRouter.get("/allUsers", validateCreateUser, getAllUsersHandler);
 usersRouter.get("/", ensureToken, user)
 usersRouter.put("/update", updateUserHanlder);
-usersRouter.delete("/:id", deleteUserHandler);
+usersRouter.delete("/", deleteUserHandler);
 usersRouter.post("/signup", signup);
 usersRouter.post("/login", login)
 

@@ -69,9 +69,13 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
     };
   };
 //Eliminar un usuario:
-const deleteUser = async (id) => {    
-    await User.destroy({where: { id: id}});
-}   
+const deleteUser = async (token) => {
+  const { id } = jwt.verify(token, process.env.SECRET_KEY);
+  await User.destroy({ where: { id } });
+  return {
+    status: "Deleted successfully",
+  };
+};   
 
 
 

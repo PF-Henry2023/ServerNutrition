@@ -49,37 +49,21 @@ const user = async(req, res) => {
     }
   }; 
 
-  /* const ensureToken = (req, res, next) => {
-    const bearerHeader = req.headers["authorization"];
-    if (typeof bearerHeader !== "undefined") {
-        const bearer = bearerHeader.split(" ");
-        const bearerToken = bearer[1];
-        try {
-            const decoded = jwt.verify(bearerToken, process.env.SECRET_KEY);
-            req.user = decoded.id;
-            next();
-        } catch (error) {
-            res.status(401).json({ message: "Unauthorized" });
-        }
-    } else {
-        res.status(403).json({ message: "Authorization token missing" });
-    }
-};
- */
+ 
  
 
 
 
 
 //ruta para eliminar un usuario:
-const deleteUserHandler = async(req,res) => {
-    const { id } = req.params;
-    try {
-        await deleteUser(id);
-        res.status(200).send(`Usuario con id: ${id} eliminado con éxito`);
-    } catch (error) {
-        res.status(400).json({error:error.message});
-    }
+
+const deleteUserHandler = async(req, res) => {
+  try {
+      const status = await deleteUser(req.user)
+      res.status(200).json(status);
+  } catch (error) {
+      res.status(400).json({error:error.message})
+  }
 }
 
 //ruta para actualizar un usuario:
@@ -116,13 +100,3 @@ module.exports = {
 }
 
 
-/* const updateUserHanlder = async (req,res) => {
-    const { id } = req.params;
-    const { name, lastName, email, birthDate, password, phone, image, address, gender } = req.body;
-    try {
-        await updateUser(id, {name, lastName, email, birthDate, password, phone, image, address, gender });
-        res.status(200).json(`Usuario ${name} actualizado con éxito!`);
-    } catch (error) {
-        res.status(400).json(`Error al actualizar usuario: `, {error:error.message});
-    }
-} */
