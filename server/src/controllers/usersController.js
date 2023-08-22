@@ -20,13 +20,14 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
         birthDate,
         password: passwordHashed,
         phone,
+        
         address, 
         gender
       },
     });
     if (!created) throw new Error("User already exists");
   
-    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
+    const token = jwt.sign({ id: user.id,email: email.email,user:name.name,lastName:user.lastName,birthDate:user.birthDate,phone:user.phone,adress:user.adress,gender:user.gender,password:user.password}, process.env.SECRET_KEY);
     return token;
   };
 
@@ -41,7 +42,7 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
     if (!isValidPassword || user.email !== email)
       throw new Error("Wrong user or password");
   
-    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
+    const token = jwt.sign({ id: user.id,email: email.email,name:user.name,lastName:user.lastName,birthDate:user.birthDate,phone:user.phone,adress:user.adress,gender:user.gender,password:user.password }, process.env.SECRET_KEY);
     return token;
   };
   
@@ -51,6 +52,7 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
     const user = await User.findOne({ where: { id } });
     return user;
   };
+
   //Actualizar un usuario:
   const updateUser = async (token, data) => {
     const allowedFields = ["name", "lastName", "email","password","phone","image","address"];
@@ -70,6 +72,7 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
 const deleteUser = async (id) => {    
     await User.destroy({where: { id: id}});
 }   
+
 //Obtener todos los usuarios:
 const getAllUsers = async () => {
   try {
@@ -88,5 +91,5 @@ module.exports = {
   updateUser,
   getAllUsers, 
   authentication,
-  getUser
+  getUser,
 };
