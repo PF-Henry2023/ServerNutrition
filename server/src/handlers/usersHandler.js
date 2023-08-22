@@ -8,9 +8,10 @@ const signup = async (req, res) => {
     const { name, lastName, email, birthDate, password, phone, address, gender } = req.body;
     try {
       const token = await createUserDB({ name, lastName, email, birthDate, password, phone,  address, gender });
-      res.status(200).header("authorization", `Bearer ${token}`).json({token});
+      const user = { name, lastName, email, birthDate, phone, address, gender };
+      res.status(200).header("authorization", `Bearer ${token}`).json({token,user});
     } catch (error) {
-      res.status(400).json({error:error.message});
+      res.status(400).json({error:"Error creating user"});
     }
   };
 // ruta crear y verificar el token ingresado
@@ -20,9 +21,9 @@ const login = async (req, res) => {
     console.log('login token:', req.body);
     try {
       const token = await authentication({email,password});
-      res.status(200).header("authorization", `Bearer ${token}`).json({token});
+      res.status(200).header("authorization", `Bearer ${token}`).json({ message: "Login successful",token});
     } catch (error) {
-      res.status(404).json({error:error.message});
+      res.status(404).json({error:"Invalid email or password"});
     }
   };
 
@@ -32,11 +33,11 @@ const user = async(req, res) => {
         const userData = await getUser(req.user);
         res.status(200).json(userData);
     } catch (error) {
-        res.status(400).json({error:error.message});
+        res.status(400).json({error:"Unauthorized"});
     }
 }
 
-const ensureToken = (req, res, next) => {
+ const ensureToken = (req, res, next) => {
     const bearerHeader = req.headers["authorization"];
     if (typeof bearerHeader !== "undefined") {
       const bearer = bearerHeader.split(" ");
@@ -46,7 +47,27 @@ const ensureToken = (req, res, next) => {
     } else {
       res.status(403).json({ error: "Token not provided" });
     }
-  };
+  }; 
+
+  /* const ensureToken = (req, res, next) => {
+    const bearerHeader = req.headers["authorization"];
+    if (typeof bearerHeader !== "undefined") {
+        const bearer = bearerHeader.split(" ");
+        const bearerToken = bearer[1];
+        try {
+            const decoded = jwt.verify(bearerToken, process.env.SECRET_KEY);
+            req.user = decoded.id;
+            next();
+        } catch (error) {
+            res.status(401).json({ message: "Unauthorized" });
+        }
+    } else {
+        res.status(403).json({ message: "Authorization token missing" });
+    }
+};
+ */
+ 
+
 
 
 
