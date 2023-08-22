@@ -53,6 +53,10 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
     return user;
   };
 
+
+
+
+
   //Actualizar un usuario:
   const updateUser = async (token, data) => {
     const allowedFields = ["name", "lastName", "email","password","phone","image","address"];
@@ -69,9 +73,17 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
     };
   };
 //Eliminar un usuario:
-const deleteUser = async (id) => {    
-    await User.destroy({where: { id: id}});
-}   
+
+const deleteUser = async (token) => {
+  const { id } = jwt.verify(token, process.env.SECRET_KEY);
+  await User.destroy({ where: { id } });
+  return {
+    status: "Deleted successfully",
+  };
+};   
+
+
+
 
 //Obtener todos los usuarios:
 const getAllUsers = async () => {
@@ -88,8 +100,14 @@ const getAllUsers = async () => {
 module.exports = {
   createUserDB,
   deleteUser,
-  updateUser,
-  getAllUsers, 
-  authentication,
-  getUser,
-};
+
+    updateUser,
+    getAllUsers, 
+    authentication,
+    getUser
+  }
+ 
+
+
+
+
