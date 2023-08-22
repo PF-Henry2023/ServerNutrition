@@ -1,7 +1,10 @@
 /* handler usuarios */
 const { createUserDB, deleteUser, updateUser, getAllUsers,authentication,getUser } = require("../controllers/usersController");
 
-//crea un usuario en la DB:
+
+
+
+
 
 // ruta crear usuario y generar token.
 const signup = async (req, res) => {
@@ -34,8 +37,10 @@ const user = async(req, res) => {
         res.status(200).json(userData);
     } catch (error) {
         res.status(400).json({error:"Unauthorized"});
+
     }
-}
+  };
+
 
  const ensureToken = (req, res, next) => {
     const bearerHeader = req.headers["authorization"];
@@ -50,11 +55,6 @@ const user = async(req, res) => {
   }; 
 
  
- 
-
-
-
-
 //ruta para eliminar un usuario:
 
 const deleteUserHandler = async(req, res) => {
@@ -85,18 +85,24 @@ const getAllUsersHandler = async(req,res) => {
         res.status(200).json(response);
     } catch (error) {
         res.status(400).json({error:error.message})
-    }
-    
-}
+
+
+  
+
+
+
+
 
 module.exports = {
+
     signup,
     deleteUserHandler,
     updateUserHanlder,
     getAllUsersHandler,
     login,
     user,
-    ensureToken
+     ensureToken
 }
+
 
 

@@ -4,6 +4,7 @@ const { User } = require("../db");
 require("dotenv").config();
 
 //Crea un usuario en la DB:
+
 const createUserDB = async ({ name, lastName, email, birthDate, password, phone, address, gender }) => {
     
   
@@ -53,6 +54,9 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
   };
 
 
+
+
+
   //Actualizar un usuario:
   const updateUser = async (token, data) => {
     const allowedFields = ["name", "lastName", "email","password","phone","image","address"];
@@ -69,6 +73,7 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
     };
   };
 //Eliminar un usuario:
+
 const deleteUser = async (token) => {
   const { id } = jwt.verify(token, process.env.SECRET_KEY);
   await User.destroy({ where: { id } });
@@ -79,37 +84,30 @@ const deleteUser = async (token) => {
 
 
 
+
 //Obtener todos los usuarios:
 const getAllUsers = async () => {
+  try {
     const usersDB = await User.findAll();
-    if(usersDB.length === 0) throw Error ("¡No hay usuarios en la base de datos!")
+    if (usersDB.length === 0)
+      throw Error("¡No hay usuarios en la base de datos!");
     return usersDB;
-}
-
+  } catch (error) {
+    throw Error(`Error al obtener los usuarios: ${error.message}`);
+  }
+};
 
 module.exports = {
   createUserDB,
   deleteUser,
+
     updateUser,
     getAllUsers, 
     authentication,
     getUser
   }
-  /* const updateUser = async (id, infoUser) => {
-      const user = await User.findByPk(id)
-      if(!user) throw Error(`Usuario no existe en la base de datos`);
-      const { name, lastName, email, birthDate, password, phone, image, address, gender } = infoUser;//desestructuro la info del usuario que me llega por body
-      if(user){
-          user.name = name
-          user.lastName = lastName
-          user.email = email
-          user.birthDate = birthDate;
-          user.password = password;
-          user.phone = phone;
-          user.image = image;
-          user.address = address;
-          user.gender = gender;
-          await user.save();
-      }
-      return user
-  } */
+ 
+
+
+
+
