@@ -1,4 +1,5 @@
 /* handler usuarios */
+
 const { createUserDB, deleteUser, updateUser, getAllUsers,authentication,getUser,authenticationOauth,newUserOauth,activateUser } = require("../controllers/usersController");
 
 
@@ -40,20 +41,26 @@ const loginOauth = async (req, res) => {
     res.status(404).json({ error: error.message });
   }
 }
+
+
 // ruta crear y verificar el token ingresado
 
 const login = async (req, res) => {
-    const{email,password}=req.body;
-    console.log('login token:', req.body);
-    try {
-      const token = await authentication({email,password});
-      res.status(200).header("authorization", `Bearer ${token}`).json({ message: "Login successful",token});
-    } catch (error) {
-      res.status(404).json({error:"Invalid email or password"});
-    }
-  };
+  const { email, password } = req.body;
+  console.log("login token:", req.body);
+  try {
+    const token = await authentication({ email, password });
+    res
+      .status(200)
+      .header("authorization", `Bearer ${token}`)
+      .json({ message: "Login successful", token });
+  } catch (error) {
+    res.status(404).json({ error: "Invalid email or password" });
+  }
+};
 
 // traer el usuario creado o autorizado
+
 const user = async(req, res) => {
     try {
         const userData = await getUser(req.user);
@@ -67,31 +74,23 @@ const user = async(req, res) => {
 
 
 
- 
-//ruta para eliminar un usuario:
 
-/* const deleteUserHandler = async(req, res) => {
-  try {
-      const status = await deleteUser(req.user)
-      res.status(200).json(status);
-  } catch (error) {
-      res.status(400).json({error:error.message})
-  }
-} */
+
+
 
 //ruta para actualizar un usuario:
 
-
-const updateUserHanlder = async(req, res) => {
+const updateUserHanlder = async (req, res) => {
   try {
-      const status = await updateUser(req.user, req.body);
-      res.status(200).json(status);
+    const status = await updateUser(req.user, req.body);
+    res.status(200).json(status);
   } catch (error) {
-      res.status(400).json({error:error.message})
+    res.status(400).json({ error: error.message });
   }
-}
+};
 
 //ruta para obtener todos los usuarios:
+
 const getAllUsersHandler = async(req,res) => {
     try {
         const response = await getAllUsers();
@@ -130,17 +129,17 @@ const getAllUsersHandler = async(req,res) => {
 module.exports = {
 
     signup,
-   
     updateUserHanlder,
     getAllUsersHandler,
     login,
     user,
-     
-     signupOauth,
-     loginOauth,
-     activate,
-     destroy
+    signupOauth,
+    loginOauth,
+    activate,
+    destroy
 }
+
+
 
 
 

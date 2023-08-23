@@ -6,6 +6,7 @@ require("dotenv").config();
 
 //Crea un usuario en la DB:
 
+
 const createUserDB = async ({ name, lastName, email, birthDate, password, phone, address, gender,role}) => {
     
   
@@ -92,30 +93,35 @@ const createUserDB = async ({ name, lastName, email, birthDate, password, phone,
 
 
 
-  //Actualizar un usuario:
-  const updateUser = async (token, data) => {
-    const allowedFields = ["name", "lastName", "email","password","phone","image","address"];
-    const updateFields = Object.keys(data);
-    const invalidFields = updateFields.filter(
-      (field) => !allowedFields.includes(field)
-    );
-    if (invalidFields.length > 0) throw new Error("Invalid Fields");
-  
-    const { id } = jwt.verify(token, process.env.SECRET_KEY);
-    await User.update(data, { where: { id } });
-    return {
-      status: "Updated successfully",
-    };
-  };
-//Eliminar un usuario:
+//Actualizar un usuario:
+const updateUser = async (token, data) => {
+  const allowedFields = [
+    "name",
+    "lastName",
+    "email",
+    "password",
+    "phone",
+    "image",
+    "address",
+  ];
+  const updateFields = Object.keys(data);
+  const invalidFields = updateFields.filter(
+    (field) => !allowedFields.includes(field)
+  );
+  if (invalidFields.length > 0) throw new Error("Invalid Fields");
 
-/* const deleteUser = async (token) => {
   const { id } = jwt.verify(token, process.env.SECRET_KEY);
-  await User.destroy({ where: { id } });
+  await User.update(data, { where: { id } });
   return {
-    status: "Deleted successfully",
+    status: "Updated successfully",
   };
-};  */  
+};
+
+
+};  
+
+
+
 
 
 
@@ -168,6 +174,7 @@ module.exports = {
   createUserDB,
   deleteUser,
 
+
     updateUser,
     getAllUsers, 
     authentication,
@@ -177,6 +184,7 @@ module.exports = {
     activateUser
   }
  
+
 
 
 
