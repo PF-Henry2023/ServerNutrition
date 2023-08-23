@@ -17,10 +17,9 @@ const Event = (sequelize) => {
     },
     purpose: {
       type: DataTypes.TEXT,
-      allowNull: true
-    }
+      allowNull: true,
+    },
   });
 };
-
 
 module.exports = Event;

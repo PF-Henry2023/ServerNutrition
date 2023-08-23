@@ -1,55 +1,56 @@
-const { DataTypes }=require("sequelize");
+const { DataTypes } = require("sequelize");
 
-module.exports=(sequelize)=>{
-    sequelize.define('Nutrionist', {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            unique: true
+module.exports = (sequelize) => {
+  sequelize.define(
+    "Nutrionist",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+        unique: true,
+      },
+      name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+          len: [2, 20],
         },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: true,
-                len: [2, 20]
-            }
+      },
+      lastName: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+          notEmpty: true,
+          len: [2, 20],
         },
-        lastName: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            validate: {
-                notEmpty: true,
-                len: [2, 20]
-            }
+      },
+      image: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+        validate: {
+          isEmail: true,
         },
-        image:{
-            type: DataTypes.STRING,
-            allowNull:false,
-
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-            validate: {
-                isEmail: true
-            }
-        },
-        password:{
-            type:DataTypes.STRING,
-            allowNull:false
-
-        },
-        colegiatura:{
-            type:DataTypes.STRING,
-            allowNull:false
-        },
-        specialty:{
-            type:DataTypes.STRING,
-            allowNull:false
-        }
-    }, {timestamps: false});
-    
-}
+      },
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      colegiatura: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      specialty: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+    },
+    { timestamps: false }
+  );
+};
