@@ -1,5 +1,5 @@
 //index todas las rutas
-const { Router } = require('express');
+const { Router } = require("express");
 const router = Router();
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
@@ -11,5 +11,6 @@ const calendarRoute = require('./integrationCalendar');
 router.use("/users", usersRouter);
 /* router.use("/cita",citaHandler); */
 router.use("/calendarGoogle", calendarRoute);
+
 
 module.exports = router;
