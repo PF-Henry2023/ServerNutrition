@@ -5,7 +5,7 @@ const calendarRoute = Router();
 calendarRoute.get("/auth", authUser);
 calendarRoute.get("/auth/callback", authUserCallback);
 calendarRoute.get("/googleUserInfo", getUserInfo);
-calendarRoute.get("/allEvents", getAllEvents);
+calendarRoute.get("/allEvents/calendarId", getAllEvents);
 calendarRoute.post("/createEvent", saveEvent);
 calendarRoute.post("/createCalendar", createCalendar);
 

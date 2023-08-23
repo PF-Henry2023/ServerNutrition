@@ -68,7 +68,8 @@ const getUserInfo = async (req, res) => {
                 if (err) {
                     return res.status(500).json({Error_al_obtener_datos_del_usuario: err});
                 }
-                return res.status(200).json({ response: response.data });
+                //res.cookie("userId", "hola", { maxAge: 3600000, domain: "localhost", path: "/" }); 
+                return res.status(200).json( response.data );
             }
         )
     } catch (error) {
@@ -80,16 +81,18 @@ const getUserInfo = async (req, res) => {
 
 const getAllEvents = async (req, res) => {
     try {
-        const { calendarId  } = req.body;
+        const { calendarId  } = req.query;
         const listParams = {
             calendarId: calendarId,
             timeMin: new Date().toISOString(), // Eventos que comienzan después de ahora 
+            singleEvents: true, // Obtener eventos individuales en lugar de eventos recurrentes
+            orderBy: 'startTime',
         };
         await calendar.events.list(listParams, (err, response) => {
             if(err){
                 return res.status(400).json({ error: err })
             }
-            return res.status(200).json({ response: response.data });
+            return res.status(200).json({ response: response.data.items });
         })
     } catch (error) {
         console.error("Error in getAllEvents:", error);
