@@ -32,13 +32,13 @@ module.exports=(sequelize)=>{
             allowNull: true,
 
         },
-        role: {
+         role: {
             type: DataTypes.ENUM,
             allowNull: false,
             values: ['admin', 'user'],
             defaultValue: 'user'
 
-        },
+        }, 
         phone: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -60,6 +60,17 @@ module.exports=(sequelize)=>{
             validate: {
                 isIn: [['Masculino', 'Femenino', 'No binario']]
             }
-        }
+        },  googleId: {
+            type: DataTypes.STRING,
+            allowNull: true,
+            unique: true,
+    
+          },
+          isActive: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: true,
+          },
+
+
     },{timestamps: false});
 }

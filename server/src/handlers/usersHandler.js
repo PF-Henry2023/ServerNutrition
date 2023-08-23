@@ -1,5 +1,5 @@
 /* handler usuarios */
-const { createUserDB, deleteUser, updateUser, getAllUsers,authentication,getUser } = require("../controllers/usersController");
+const { createUserDB, deleteUser, updateUser, getAllUsers,authentication,getUser,authenticationOauth,newUserOauth,activateUser } = require("../controllers/usersController");
 
 
 
@@ -8,15 +8,38 @@ const { createUserDB, deleteUser, updateUser, getAllUsers,authentication,getUser
 
 // ruta crear usuario y generar token.
 const signup = async (req, res) => {
-    const { name, lastName, email, birthDate, password, phone, address, gender } = req.body;
+    const { name, lastName, email, birthDate, password, phone, address, gender,role } = req.body;
     try {
-      const token = await createUserDB({ name, lastName, email, birthDate, password, phone,  address, gender });
-      const user = { name, lastName, email, birthDate, phone, address, gender };
+      const token = await createUserDB({ name, lastName, email, birthDate, password, phone,  address, gender,role });
+      const user = { name, lastName, email, birthDate, phone, address, gender,role };
       res.status(200).header("authorization", `Bearer ${token}`).json({token,user});
     } catch (error) {
       res.status(400).json({error:"Error creating user"});
     }
   };
+
+  //ruta crear OAuth2
+  const signupOauth = async (req, res) => {
+    const { tokenId } = req.body; //encoded token
+    try {
+      const token = await newUserOauth(tokenId);
+      res.status(200).json({ token: `Bearer ${token}` });
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  }
+
+//login OAuth2
+
+const loginOauth = async (req, res) => {
+  const { tokenId } = req.body; //Encoded token
+  try {
+    const tokenResponse = await authenticationOauth(tokenId);
+    res.status(200).json({ token: `Bearer ${tokenResponse}` });
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+}
 // ruta crear y verificar el token ingresado
 
 const login = async (req, res) => {
@@ -42,29 +65,19 @@ const user = async(req, res) => {
   };
 
 
- const ensureToken = (req, res, next) => {
-    const bearerHeader = req.headers["authorization"];
-    if (typeof bearerHeader !== "undefined") {
-      const bearer = bearerHeader.split(" ");
-      const bearerToken = bearer[1];
-      req.user = bearerToken;
-      next();
-    } else {
-      res.status(403).json({ error: "Token not provided" });
-    }
-  }; 
+
 
  
 //ruta para eliminar un usuario:
 
-const deleteUserHandler = async(req, res) => {
+/* const deleteUserHandler = async(req, res) => {
   try {
       const status = await deleteUser(req.user)
       res.status(200).json(status);
   } catch (error) {
       res.status(400).json({error:error.message})
   }
-}
+} */
 
 //ruta para actualizar un usuario:
 
@@ -86,7 +99,28 @@ const getAllUsersHandler = async(req,res) => {
     } catch (error) {
         res.status(400).json({error:error.message})
 
+    }
+  
+  }
 
+  const activate = async (req, res) => {
+    try {
+      const status = await activateUser(req.body)
+      res.status(200).json(status);
+    } catch (error) {
+      res.status(400).json({ error: error.message })
+    }
+  }
+
+
+  const destroy = async (req, res) => {
+    try {
+      const status = await deleteUser(req.body)
+      res.status(200).json(status);
+    } catch (error) {
+      res.status(400).json({ error: error.message })
+    }
+  }
   
 
 
@@ -96,12 +130,16 @@ const getAllUsersHandler = async(req,res) => {
 module.exports = {
 
     signup,
-    deleteUserHandler,
+   
     updateUserHanlder,
     getAllUsersHandler,
     login,
     user,
-     ensureToken
+     
+     signupOauth,
+     loginOauth,
+     activate,
+     destroy
 }
 
 

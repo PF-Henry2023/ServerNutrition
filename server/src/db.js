@@ -9,9 +9,7 @@ const sequelize = new Sequelize(
   {
     logging: false,
     native: false,
-    dialectOptions: {
-      ssl: true,
-    },
+    
   }
 );
 
