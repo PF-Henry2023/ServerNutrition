@@ -29,10 +29,15 @@ module.exports=(sequelize)=>{
         },
         password: {
             type: DataTypes.STRING,
+            allowNull: true,
+
+        },
+        role: {
+            type: DataTypes.ENUM,
             allowNull: false,
-            validate: {
-                is: /^(?=.*[A-Z])(?=.*\d).{6,8}$/
-            }
+            values: ['admin', 'user'],
+            defaultValue: 'user'
+
         },
         phone: {
             type: DataTypes.STRING,
