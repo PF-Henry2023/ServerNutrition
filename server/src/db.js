@@ -9,9 +9,6 @@ const sequelize = new Sequelize(
   {
     logging: false,
     native: false,
-    dialectOptions: {
-      ssl: true,
-    },
   }
 );
 
@@ -42,7 +39,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
-const { Admin, Nutrionist, User,Event} = sequelize.models;
+const { Admin, Nutrionist, User, Event } = sequelize.models;
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
 Event.hasMany(User);
