@@ -118,14 +118,6 @@ const updateUser = async (token, data) => {
 };
 
 
-};  
-
-
-
-
-
-
-
 //Obtener todos los usuarios:
 const getAllUsers = async () => {
   try {
