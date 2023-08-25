@@ -6,20 +6,17 @@ const {
   updateNutritionist,
   deleteNutritionist,
   createNutritionist,
+  restoreNutritionist,
 } = require("../handlers/nutritionistHandler.js");
 const nutritionistRouter = Router();
 
-// Routes
-//mas priorizable
-//createNutritionist
 nutritionistRouter.post("/create", createNutritionist);
-
-//priori2
-nutritionistRouter.get("/allNutritionists", getAllNutritionists);
+nutritionistRouter.get("/list", getAllNutritionists);
 nutritionistRouter.get("/searchBy", getOneNutritionist);
 
-//segundo en la lista
-nutritionistRouter.put("/update/:id", updateNutritionist);
+//priori hoy
 nutritionistRouter.delete("/delete/:id", deleteNutritionist);
+nutritionistRouter.put("/update/:id", updateNutritionist);
+nutritionistRouter.put("/restore/:id", restoreNutritionist);
 
 module.exports = nutritionistRouter;
