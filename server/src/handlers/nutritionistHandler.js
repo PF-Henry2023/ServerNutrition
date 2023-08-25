@@ -1,21 +1,22 @@
 /* handler usuarios */
 
 const {
-  deleteN,
+  softdeleteN,
   updateN,
   getAllN,
+  restoreN,
   getOneN,
   createN,
 } = require("../controllers/nutritionistController");
 
 const createNutritionist = async (req, res) => {
-  const { password, ...nutritionistProperties } = req.body;
   try {
+    const { password, ...nutritionistProperties } = req.body;
     const token = await createN(nutritionistProperties, password);
     res
       .status(200)
       .header("authorization", `Bearer ${token}`)
-      .json({ token, ...nutritionistProperties });
+      .json({ token, ...nutritionistProperties, isActive: true });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -23,8 +24,9 @@ const createNutritionist = async (req, res) => {
 
 //ruta para obtener todos los usuarios:
 const getAllNutritionists = async (req, res) => {
+  const { isActive } = req.query;
   try {
-    const response = await getAllN();
+    const response = await getAllN(isActive);
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -50,8 +52,9 @@ const getOneNutritionist = async (req, res) => {
 
 const updateNutritionist = async (req, res) => {
   try {
-    const status = await updateN();
-    res.status(200).json(status);
+    const { id } = req.params;
+    const response = await updateN(id, req.body);
+    res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -59,8 +62,19 @@ const updateNutritionist = async (req, res) => {
 
 const deleteNutritionist = async (req, res) => {
   try {
-    const status = await deleteN();
-    res.status(200).json(status);
+    const { id } = req.params;
+    const response = await softdeleteN(id);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const restoreNutritionist = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await restoreN(id);
+    res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -72,4 +86,5 @@ module.exports = {
   getOneNutritionist,
   updateNutritionist,
   deleteNutritionist,
+  restoreNutritionist,
 };

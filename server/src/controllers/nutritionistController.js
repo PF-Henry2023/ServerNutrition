@@ -3,15 +3,6 @@ const jwt = require("jsonwebtoken");
 const { Nutritionist } = require("../db");
 require("dotenv").config();
 
-// const verifyAndDecodeToken = (token, secretKey) => {
-//   try {
-//     const decodedToken = jwt.verify(token, secretKey);
-//     return decodedToken;
-//   } catch (error) {
-//     throw new Error(`Token verification error: ${error.message}`);
-//   }
-// };
-
 const createN = async (nutritionist, password) => {
   try {
     // Code to fetch a nutritionist
@@ -27,11 +18,6 @@ const createN = async (nutritionist, password) => {
       existingNutritionist.dataValues,
       process.env.SECRET_KEY
     );
-
-    // console.log(
-    //   "atributos del token decodificado",
-    //   verifyAndDecodeToken(token, process.env.SECRET_KEY)
-    // );
 
     return token;
   } catch (error) {
@@ -53,9 +39,8 @@ const getOneN = async (data) => {
     }
 
     if (!nutritionist) {
-      throw new Error(`Error fetching nutritionist: Nutritionist not found`);
+      throw new Error(`Nutritionist not found`);
     }
-
     return nutritionist;
   } catch (error) {
     throw new Error(`Error fetching nutritionist: ${error.message}`);
@@ -63,21 +48,66 @@ const getOneN = async (data) => {
 };
 
 // Actualizar un usuario
-const updateN = async () => {
+const updateN = async (id, data) => {
   try {
-    // Code to update a nutritionist
-    return "updateN";
+    const allowedFields = [
+      "name",
+      "lastName",
+      "email",
+      "image",
+      "password",
+      "license",
+      "specialty",
+    ];
+
+    // Verificar que solo los campos permitidos sean modificados
+    const updateFields = Object.keys(data);
+    const invalidFields = updateFields.filter(
+      (field) => !allowedFields.includes(field)
+    );
+    if (invalidFields.length > 0) {
+      const invalidFieldNames = invalidFields.join(", ");
+      throw new Error(`Fields not permitted for update: ${invalidFieldNames}`);
+    }
+
+    await Nutritionist.update(data, {
+      where: { id },
+    });
+    const updatedNutritionist = await Nutritionist.findByPk(id);
+
+    return updatedNutritionist;
   } catch (error) {
     throw new Error(`Error updating nutritionist: ${error.message}`);
   }
 };
 
 // Obtener todos los usuarios
-const getAllN = async () => {
+const getAllN = async (isActive) => {
   try {
-    const nutritionistsfromDB = await Nutritionist.findAll();
-    if (nutritionistsfromDB.length === 0)
-      throw Error("¡No hay usuarios en la base de datos!");
+    let nutritionistsfromDB;
+
+    switch (isActive) {
+      case "true":
+        nutritionistsfromDB = await Nutritionist.findAll({
+          where: { isActive: true },
+        });
+        break;
+
+      case "false":
+        nutritionistsfromDB = await Nutritionist.findAll({
+          where: { isActive: false },
+        });
+        break;
+
+      default:
+        nutritionistsfromDB = await Nutritionist.findAll();
+        break;
+    }
+
+    if (nutritionistsfromDB.length === 0) {
+      throw new Error("No users found in the database!");
+    }
+
     return nutritionistsfromDB;
   } catch (error) {
     throw new Error(`Error fetching all nutritionists: ${error.message}`);
@@ -85,19 +115,48 @@ const getAllN = async () => {
 };
 
 // Eliminar usuario
-const deleteN = async () => {
+const softdeleteN = async (id) => {
   try {
-    // Code to delete a nutritionist
-    return "deleteN";
+    if (!id) {
+      throw new Error(`No ID provided for deletion.`);
+    }
+
+    const deletedNutritionist = await Nutritionist.findOne({
+      where: { id, isActive: true },
+    });
+
+    if (!deletedNutritionist) {
+      throw new Error(`Nutritionist with ID ${id} not found.`);
+    }
+
+    await Nutritionist.update({ isActive: false }, { where: { id } });
+
+    return deletedNutritionist;
   } catch (error) {
     throw new Error(`Error deleting nutritionist: ${error.message}`);
   }
 };
 
+const restoreN = async (id) => {
+  try {
+    if (!id) {
+      throw new Error(`No ID provided for restoration!`);
+    }
+    await Nutritionist.update({ isActive: true }, { where: { id } });
+
+    const restoredNutritionist = await Nutritionist.findByPk(id);
+
+    return restoredNutritionist;
+  } catch (error) {
+    throw new Error(`Error updating nutritionist: ${error.message}`);
+  }
+};
+
 module.exports = {
-  deleteN,
+  softdeleteN,
   updateN,
   getAllN,
+  restoreN,
   getOneN,
   createN,
 };
