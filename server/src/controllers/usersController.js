@@ -39,8 +39,8 @@ const createUserDB = async ({
   const token = jwt.sign(
     {
       id: user.id,
-      email: email.email,
-      user: name.name,
+      email: user.email,
+      user: user.name,
       lastName: user.lastName,
       birthDate: user.birthDate,
       phone: user.phone,
@@ -101,7 +101,7 @@ const authentication = async ({ email, password }) => {
   const token = jwt.sign(
     {
       id: user.id,
-      email: email.email,
+      email: user.email,
       name: user.name,
       lastName: user.lastName,
       birthDate: user.birthDate,

@@ -7,10 +7,12 @@ const usersRouter = require("./usersRouter");
 const calendarRoute = require("./integrationCalendar");
 const paymentRouter = require("./paymentRouter");
 const nutritionistRouter = require("./nutritionistRouter");
+const wellnessPlanRouter = require("./wellnessPlanRouter");
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
 router.use("/users", usersRouter);
+router.use("/wellnessPlans", wellnessPlanRouter);
 router.use("/nutritionists", nutritionistRouter);
 router.use("/calendarGoogle", calendarRoute);
 router.use("/create-checkout-session", paymentRouter);
