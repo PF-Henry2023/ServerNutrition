@@ -2,7 +2,7 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "Nutrionist",
+    "Nutritionist",
     {
       id: {
         type: DataTypes.INTEGER,
@@ -42,7 +42,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      colegiatura: {
+      license: {
         type: DataTypes.STRING,
         allowNull: false,
       },

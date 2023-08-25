@@ -22,7 +22,6 @@ module.exports = (sequelize) => {
         allowNull: false,
         validate: {
           isUrl: true,
-
         },
       },
       birthDate: {
@@ -60,18 +59,17 @@ module.exports = (sequelize) => {
         validate: {
           isIn: [["Masculino", "Femenino", "No binario"]],
         },
-      },  googleId: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            unique: true,
-    
-          },
-          isActive: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: true,
-          },
-
-
-    },{timestamps: false});
-}
-
+      },
+      googleId: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true,
+      },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
+    },
+    { timestamps: false }
+  );
+};
