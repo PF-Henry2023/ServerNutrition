@@ -3,14 +3,14 @@ const jwt = require("jsonwebtoken");
 const { Nutritionist } = require("../db");
 require("dotenv").config();
 
-const verifyAndDecodeToken = (token, secretKey) => {
-  try {
-    const decodedToken = jwt.verify(token, secretKey);
-    return decodedToken;
-  } catch (error) {
-    throw new Error(`Token verification error: ${error.message}`);
-  }
-};
+// const verifyAndDecodeToken = (token, secretKey) => {
+//   try {
+//     const decodedToken = jwt.verify(token, secretKey);
+//     return decodedToken;
+//   } catch (error) {
+//     throw new Error(`Token verification error: ${error.message}`);
+//   }
+// };
 
 const createN = async (nutritionist, password) => {
   try {
@@ -28,10 +28,10 @@ const createN = async (nutritionist, password) => {
       process.env.SECRET_KEY
     );
 
-    console.log(
-      "atributos del token decodificado",
-      verifyAndDecodeToken(token, process.env.SECRET_KEY)
-    );
+    // console.log(
+    //   "atributos del token decodificado",
+    //   verifyAndDecodeToken(token, process.env.SECRET_KEY)
+    // );
 
     return token;
   } catch (error) {
@@ -40,10 +40,23 @@ const createN = async (nutritionist, password) => {
 };
 
 // Mostrar usuario
-const getOneN = async () => {
+const getOneN = async (data) => {
   try {
-    // Code to fetch a nutritionist
-    return "getOneN";
+    let nutritionist;
+
+    if (typeof data === "number") {
+      nutritionist = await Nutritionist.findByPk(data);
+    } else {
+      nutritionist = await Nutritionist.findOne({
+        where: { name: data },
+      });
+    }
+
+    if (!nutritionist) {
+      throw new Error(`Error fetching nutritionist: Nutritionist not found`);
+    }
+
+    return nutritionist;
   } catch (error) {
     throw new Error(`Error fetching nutritionist: ${error.message}`);
   }
@@ -62,8 +75,10 @@ const updateN = async () => {
 // Obtener todos los usuarios
 const getAllN = async () => {
   try {
-    // Code to fetch all nutritionists
-    return "getAllN";
+    const nutritionistsfromDB = await Nutritionist.findAll();
+    if (nutritionistsfromDB.length === 0)
+      throw Error("¡No hay usuarios en la base de datos!");
+    return nutritionistsfromDB;
   } catch (error) {
     throw new Error(`Error fetching all nutritionists: ${error.message}`);
   }

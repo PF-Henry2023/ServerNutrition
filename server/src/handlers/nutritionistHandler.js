@@ -21,15 +21,6 @@ const createNutritionist = async (req, res) => {
   }
 };
 
-const updateNutritionist = async (req, res) => {
-  try {
-    const status = await updateN();
-    res.status(200).json(status);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-};
-
 //ruta para obtener todos los usuarios:
 const getAllNutritionists = async (req, res) => {
   try {
@@ -40,10 +31,27 @@ const getAllNutritionists = async (req, res) => {
   }
 };
 
+//ruta para obtener usuarios por query:
 const getOneNutritionist = async (req, res) => {
   try {
-    const response = await getOneN();
+    const { id, name } = req.query;
+    if (!id && !name) {
+      return res.status(400).json({
+        error: "Please provide either 'id' or 'name' query parameter",
+      });
+    }
+
+    const response = await getOneN(Number(id) || name);
     res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const updateNutritionist = async (req, res) => {
+  try {
+    const status = await updateN();
+    res.status(200).json(status);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
