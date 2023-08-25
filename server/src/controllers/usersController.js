@@ -34,13 +34,13 @@ const createUserDB = async ({
       gender,
     },
   });
-  if (!created) throw new Error("User already exists!");
+  if (!created) throw new Error("User already exists");
 
   const token = jwt.sign(
     {
       id: user.id,
-      email: email,
-      user: name,
+      email: email.email,
+      user: name.name,
       lastName: user.lastName,
       birthDate: user.birthDate,
       phone: user.phone,
@@ -53,6 +53,7 @@ const createUserDB = async ({
   );
   return token;
 };
+
 // registro OAuth2
 
 const newUserOauth = async (data) => {
@@ -68,7 +69,7 @@ const newUserOauth = async (data) => {
   });
   if (!created) throw new Error("User already exists");
 
-  await newUserEmail(name, email);
+  //await newUserEmail(name, email);
 
   const token = jwt.sign({ id, role }, process.env.SECRET_KEY);
   return token;

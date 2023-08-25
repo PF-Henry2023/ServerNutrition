@@ -1,12 +1,14 @@
 const {OAuth2Client}=require("google-auth-library");
+require("dotenv").config();
 
+const { YOUR_CLIENT_ID } = process.env;
 
 const decodeTokenOauth = async (token) => {
     // Decodificar el token
     const client = new OAuth2Client();
     const ticket = await client.verifyIdToken({
         idToken: token,
-        audience: "659206981480-dpv28b5to1u20p6oncccfrl2pkgmei5b.apps.googleusercontent.com", // Reemplaza 'tu_client_id' con el ID de cliente de tu aplicación
+        audience: YOUR_CLIENT_ID, // Reemplaza 'tu_client_id' con el ID de cliente de tu aplicación
     });
     const payload = ticket.getPayload();
     return payload;
@@ -15,3 +17,4 @@ const decodeTokenOauth = async (token) => {
 module.exports = {
     decodeTokenOauth,
 }
+

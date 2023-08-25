@@ -31,7 +31,7 @@ usersRouter.put("/update", ensureToken, updateUserHanlder);
 usersRouter.delete("/delete", ensureToken, destroy);
 usersRouter.delete("/activate", ensureToken, activate);
 usersRouter.post("/signup", signup);
-
+// logueo con terceros(Google)
 usersRouter.post("/login", login);
 usersRouter.post("/login/oauth2.0", loginOauth);
 usersRouter.post("/signup/oauth2.0", signupOauth);

@@ -15,7 +15,7 @@ module.exports = (sequelize) => {
       },
       lastName: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       email: {
         type: DataTypes.STRING,
@@ -26,7 +26,7 @@ module.exports = (sequelize) => {
       },
       birthDate: {
         type: DataTypes.DATE,
-        allowNull: false,
+        allowNull: true,
       },
       password: {
         type: DataTypes.STRING,
@@ -40,7 +40,7 @@ module.exports = (sequelize) => {
       },
       phone: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       image: {
         type: DataTypes.STRING,
@@ -55,7 +55,7 @@ module.exports = (sequelize) => {
       },
       gender: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
         validate: {
           isIn: [["Masculino", "Femenino", "No binario"]],
         },
