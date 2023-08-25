@@ -5,7 +5,21 @@ const {
   updateN,
   getAllN,
   getOneN,
+  createN,
 } = require("../controllers/nutritionistController");
+
+const createNutritionist = async (req, res) => {
+  const { password, ...nutritionistProperties } = req.body;
+  try {
+    const token = await createN(nutritionistProperties, password);
+    res
+      .status(200)
+      .header("authorization", `Bearer ${token}`)
+      .json({ token, ...nutritionistProperties });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 const updateNutritionist = async (req, res) => {
   try {
@@ -45,6 +59,7 @@ const deleteNutritionist = async (req, res) => {
 };
 
 module.exports = {
+  createNutritionist,
   getAllNutritionists,
   getOneNutritionist,
   updateNutritionist,

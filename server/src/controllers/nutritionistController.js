@@ -1,6 +1,43 @@
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { Nutrionist } = require("../db");
+const { Nutritionist } = require("../db");
 require("dotenv").config();
+
+const verifyAndDecodeToken = (token, secretKey) => {
+  try {
+    const decodedToken = jwt.verify(token, secretKey);
+    return decodedToken;
+  } catch (error) {
+    throw new Error(`Token verification error: ${error.message}`);
+  }
+};
+
+const createN = async (nutritionist, password) => {
+  try {
+    // Code to fetch a nutritionist
+    const passwordHashed = await bcrypt.hash(password, 8);
+
+    const [existingNutritionist, wasCreated] = await Nutritionist.findOrCreate({
+      where: { email: nutritionist.email },
+      defaults: { ...nutritionist, password: passwordHashed },
+    });
+    if (!wasCreated) throw new Error("nutritionist already exists!");
+
+    const token = jwt.sign(
+      existingNutritionist.dataValues,
+      process.env.SECRET_KEY
+    );
+
+    console.log(
+      "atributos del token decodificado",
+      verifyAndDecodeToken(token, process.env.SECRET_KEY)
+    );
+
+    return token;
+  } catch (error) {
+    throw new Error(`Error fetching nutritionist: ${error.message}`);
+  }
+};
 
 // Mostrar usuario
 const getOneN = async () => {
@@ -47,4 +84,5 @@ module.exports = {
   updateN,
   getAllN,
   getOneN,
+  createN,
 };

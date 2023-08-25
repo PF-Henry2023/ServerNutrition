@@ -11,7 +11,7 @@ const nutritionistRouter = require("./nutritionistRouter");
 // Ejemplo: router.use('/auth', authRouter);
 
 router.use("/users", usersRouter);
-router.use("/nutritionist", nutritionistRouter);
+router.use("/nutritionists", nutritionistRouter);
 router.use("/calendarGoogle", calendarRoute);
 router.use("/create-checkout-session", paymentRouter);
 
