@@ -60,8 +60,8 @@ const signup = async (req, res) => {
 const signupOauth = async (req, res) => {
   const { tokenId } = req.body; //encoded token
   try {
-    const token = await newUserOauth(tokenId);
-    res.status(200).json({ token: `Bearer ${token}` });
+    const response = await newUserOauth(tokenId);
+      return res.status(200).json({ message: response });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
