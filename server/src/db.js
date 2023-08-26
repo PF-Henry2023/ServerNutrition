@@ -9,7 +9,6 @@ const sequelize = new Sequelize(
   {
     logging: false,
     native: false,
-
   }
 );
 
@@ -40,11 +39,26 @@ sequelize.models = Object.fromEntries(capsEntries);
 // En sequelize.models están todos los modelos importados como propiedades
 // Para relacionarlos hacemos un destructuring
 
-const { Admin, Nutrionist, User, Event } = sequelize.models;
+const { Nutritionist, User, Event, WellnessPlan } = sequelize.models;
 // Aca vendrian las relaciones
 // Product.hasMany(Reviews);
-Event.hasMany(User);
-User.belongsTo(Event);
+
+// Relación de WellnessPlan con user
+User.belongsTo(WellnessPlan);
+WellnessPlan.hasMany(User);
+
+//SEGUN NUESTRA CHARLA con nico, pueden tener 2 o 3 mas citas,
+//supongan el caso de que es una cuenta familiar, o alguien a quien
+//le interesa mucho el tema de la nutricion
+User.belongsToMany(Event, { through: "UserXEvent" });
+Event.belongsToMany(User, { through: "UserXEvent" });
+
+Event.belongsTo(Nutritionist);
+Nutritionist.hasMany(Event);
+
+// Relación de WellnessPlan con Nutritionist
+Nutritionist.hasMany(WellnessPlan);
+WellnessPlan.belongsTo(Nutritionist);
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
