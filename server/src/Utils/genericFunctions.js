@@ -52,6 +52,7 @@ const sendEmailNotification = async (email) => {
           <a href="${link}">${link}</a>
       `// se le puede poner cualquier link que se desee en el cuerpo del mensaje para que cuando ingrese lo redirija puede ser a la plataforma
   });
+
 };
 module.exports = {
   validateCreateUser,
