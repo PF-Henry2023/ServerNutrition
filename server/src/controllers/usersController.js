@@ -67,11 +67,12 @@ const newUserOauth = async (data) => {
       googleId: sub,
     },
   });
-  if (!created) throw new Error("User already exists");
-
+  if (!created) {
+    const message = "User Already exist";
+    return message;
+  }
   //await newUserEmail(name, email);
-
-  const token = jwt.sign({ id, role }, process.env.SECRET_KEY);
+  const token = `Bearer ${jwt.sign({ id, role }, process.env.SECRET_KEY)}`;
   return token;
 };
 
