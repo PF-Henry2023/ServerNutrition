@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../db");
 const { decodeTokenOauth } = require("../Utils/google");
 require("dotenv").config();
+const { sendEmailNotification } = require("../Utils/genericFunctions");
 
 //Crea un usuario en la DB:
 
@@ -35,12 +36,12 @@ const createUserDB = async ({
     },
   });
   if (!created) throw new Error("User already exists");
-
+  sendEmailNotification(email);
   const token = jwt.sign(
     {
       id: user.id,
-      email: email.email,
-      user: name.name,
+      email: user.email,
+      user: user.name,
       lastName: user.lastName,
       birthDate: user.birthDate,
       phone: user.phone,
@@ -101,7 +102,7 @@ const authentication = async ({ email, password }) => {
   const token = jwt.sign(
     {
       id: user.id,
-      email: email.email,
+      email: user.email,
       name: user.name,
       lastName: user.lastName,
       birthDate: user.birthDate,
