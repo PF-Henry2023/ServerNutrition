@@ -124,6 +124,17 @@ const getUser = async (token) => {
   return user;
 };
 
+// user id
+
+const getUserDetail = async (id) => {
+  const user = await User.findByPk(id);
+  if (!user) {
+    throw new Error("User not found");
+  }
+  return user;
+};
+
+
 //Actualizar un usuario:
 const updateUser = async (token, data) => {
   const allowedFields = [
@@ -203,4 +214,5 @@ module.exports = {
   newUserOauth,
   authenticationOauth,
   activateUser,
+  getUserDetail
 };
