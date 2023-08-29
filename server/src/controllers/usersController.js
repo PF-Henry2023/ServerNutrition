@@ -179,7 +179,7 @@ const activateUser = async ({ id }) => {
 // delete user
 const deleteUser = async ({ id }) => {
   /**const { id } = jwt.verify(token, process.env.SECRET_KEY);**/
-  const user = await Users.findOne({ where: { id, isActive: true } });
+  const user = await User.findOne({ where: { id, isActive: true } });
   if (!user) {
     return {
       status: "User not found",
