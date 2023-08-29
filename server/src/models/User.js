@@ -69,6 +69,20 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
       },
+      diet: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        
+      },
+      exercise: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        
+      },
+      first_appointment: {
+        type: DataTypes.INTEGER, // Suponiendo que el ID de la cita es un número entero
+        allowNull: true,
+      },
     },
     { timestamps: false }
   );
