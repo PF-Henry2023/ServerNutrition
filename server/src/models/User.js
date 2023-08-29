@@ -80,8 +80,10 @@ module.exports = (sequelize) => {
         
       },
       first_appointment: {
+
         type: DataTypes.INTEGER, 
-        allowNull: true,
+
+        
       },
     },
     { timestamps: false }
