@@ -42,10 +42,14 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      
       isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
+      },
+      googleId: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true,
       },
     },
     { timestamps: false }

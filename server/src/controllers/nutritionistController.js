@@ -185,7 +185,7 @@ const checkCredentialsOauth = async (data) => {
 const registerOauthUser = async (data) => {
   try {
     const { email, name, picture, sub } = await decodeTokenOauth(data);
-    const [{ id, role }, created] = await User.findOrCreate({
+    const [{ id, role }, created] = await Nutritionist.findOrCreate({
       where: { email },
       defaults: {
         name,
