@@ -12,20 +12,22 @@ const {
   loginOauth,
   signupOauth,
   activate,
+  userId
 } = require("../handlers/usersHandler");
-const { validateCreateUser } = require("../Utils/genericFunctions");
+
 const { ensureToken, onlyAdmin } = require("../Utils/seguridad");
 
 // endpoints: ruta de acceso a nuestro backend;
 usersRouter.get(
   "/allUsers",
-  ensureToken,
-  onlyAdmin,
-  validateCreateUser,
+  
+ 
+ 
   getAllUsersHandler
 );
 usersRouter.get("/", ensureToken, user);
 usersRouter.put("/update", ensureToken, updateUserHanlder);
+usersRouter.get("/:id", userId);
 
 /* usersRouter.delete("/", deleteUserHandler); */
 usersRouter.delete("/delete", ensureToken, destroy);

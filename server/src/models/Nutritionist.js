@@ -42,14 +42,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      license: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      specialty: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
+      
       isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

@@ -69,6 +69,22 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
       },
+      diet: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        
+      },
+      exercise: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        
+      },
+      first_appointment: {
+
+        type: DataTypes.INTEGER, 
+
+        
+      },
     },
     { timestamps: false }
   );
