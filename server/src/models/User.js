@@ -80,8 +80,10 @@ module.exports = (sequelize) => {
         
       },
       first_appointment: {
-        type: DataTypes.INTEGER, // Suponiendo que el ID de la cita es un número entero
-        allowNull: true,
+
+        type: DataTypes.INTEGER, 
+
+        
       },
     },
     { timestamps: false }
