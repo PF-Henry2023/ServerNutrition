@@ -40,25 +40,24 @@ sequelize.models = Object.fromEntries(capsEntries);
 // Para relacionarlos hacemos un destructuring
 
 const { Nutritionist, User, Event, WellnessPlan } = sequelize.models;
-// Aca vendrian las relaciones
-// Product.hasMany(Reviews);
 
-// Relación de WellnessPlan con user
-User.belongsTo(WellnessPlan);
-WellnessPlan.hasMany(User);
+// Aca vendrian las relaciones:
 
-//SEGUN NUESTRA CHARLA con nico, pueden tener 2 o 3 mas citas,
-//supongan el caso de que es una cuenta familiar, o alguien a quien
-//le interesa mucho el tema de la nutricion
-User.belongsToMany(Event, { through: "UserXEvent" });
-Event.belongsToMany(User, { through: "UserXEvent" });
+//Relacion Usuario y citas:(1:M)
+User.hasMany(Event);//tiene muchas
+Event.belongsTo(User);//pertenece a 
 
-Event.belongsTo(Nutritionist);
-Nutritionist.hasMany(Event);
+//Relacion Nutricionista con citas:
+Nutritionist.hasMany(Event);//tiene muchas
+Event.belongsTo(Nutritionist);//pertenece a 
 
-// Relación de WellnessPlan con Nutritionist
-Nutritionist.hasMany(WellnessPlan);
-WellnessPlan.belongsTo(Nutritionist);
+// Relacion cita con tratamiento:
+Event.belongsToMany(WellnessPlan, { through: 'Events_Tratamientos' });//pertenece a muchos 
+WellnessPlan.belongsToMany(Event, { through: 'Events_Tratamientos' });//pertenece a muchos 
+
+//Relación Nutricionista con Tratamiento:
+Nutritionist.belongsToMany(WellnessPlan, { through: 'Nutritionists_Tratamientos' });//pertenece a muchos 
+WellnessPlan.belongsToMany(Nutritionist, { through: 'Nutritionists_Tratamientos' });//pertenece a muchos 
 
 module.exports = {
   ...sequelize.models, // para poder importar los modelos así: const { Product, User } = require('./db.js');
