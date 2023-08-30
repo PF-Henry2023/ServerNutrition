@@ -7,6 +7,9 @@ const {
   restoreN,
   getOneN,
   createN,
+  checkCredentials,
+  checkCredentialsOauth,
+  registerOauthUser,
 } = require("../controllers/nutritionistController");
 
 const createNutritionist = async (req, res) => {
@@ -79,6 +82,42 @@ const restoreNutritionist = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+/*loginNutritionist;
+loginOauthNutritionist;
+signupOauthNutritionist; */
+const loginNutritionist = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    console.log("login token:", req.body);
+    const token = await checkCredentials({ email, password });
+    res
+      .status(200)
+      .header("authorization", `Bearer ${token}`)
+      .json({ message: "Login successful", token });
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+
+const loginOauthNutritionist = async (req, res) => {
+  const { tokenId } = req.body; //Encoded token
+  try {
+    const tokenResponse = await checkCredentialsOauth(tokenId);
+    res.status(200).json({ token: `Bearer ${tokenResponse}` });
+  } catch (error) {
+    res.status(404).json({ error: error.message });
+  }
+};
+
+const signupOauthNutritionist = async (req, res) => {
+  const { tokenId } = req.body; //encoded token
+  try {
+    const token = await registerOauthUser(tokenId);
+    res.status(200).json({ token: `Bearer ${token}` });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 module.exports = {
   createNutritionist,
@@ -87,4 +126,7 @@ module.exports = {
   updateNutritionist,
   deleteNutritionist,
   restoreNutritionist,
+  loginNutritionist,
+  loginOauthNutritionist,
+  signupOauthNutritionist,
 };
