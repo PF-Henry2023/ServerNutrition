@@ -10,23 +10,23 @@ module.exports = (sequelize) => {
         autoIncrement: true,
         unique: true,
       },
-      dailyMeals: {
+      dailyMeals: {//array  de longitud 4, desayuno almuerxo y merienda
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
       },
-      groceryList: {
+      groceryList: {//lista de supermercados
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
       },
-      suggestedFoods: {
+      suggestedFoods: {//plattos de comidas
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
       },
-      workoutPlan: {
+      workoutPlan: {//rutina de ejercicios
         type: DataTypes.ARRAY(DataTypes.STRING),
         allowNull: false,
       },
-      goals: {
+      goals: {// metas
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
