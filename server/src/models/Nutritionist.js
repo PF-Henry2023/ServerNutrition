@@ -42,6 +42,14 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      diasDeTrabajo: {
+        type: DataTypes.JSON,
+        allowNull: false,
+      },
+      horarioDeTrabajo: {
+        type: DataTypes.JSON,
+        allowNull: false,
+      },
       isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
