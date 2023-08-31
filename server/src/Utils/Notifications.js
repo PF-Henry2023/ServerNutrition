@@ -24,7 +24,7 @@ const sendEmailNotification = async (email, name) => {
   });
 };
 
-//FUNCIÓN PARA ENVIAR NOTIFICACIONES VIA EMAIL CUANDO SE CREE UNA CITA:
+//FUNCIÓN PARA ENVIAR NOTIFICACION Al PACIENTE VIA EMAIL CUANDO SE CREE UNA CITA:
 const sendEmailCreateEvent = async (userEmail, event, nutritionistName ) => {
   const transporter = nodemailer.createTransport({
       host:"smtp.gmail.com",
@@ -42,6 +42,31 @@ const sendEmailCreateEvent = async (userEmail, event, nutritionistName ) => {
       subject:"¡Cita creada exitosamente!",
       html: `
           <p>Nutricionista: ${nutritionistName}</p>
+          <p>Fecha: ${event.dataValues.date}</p>
+          <p>Hora: ${event.dataValues.hour}</p>
+          <p>Motivo: ${event.dataValues.purpose}</p>
+      `
+  });
+};
+
+//FUNCIÓN PARA ENVIAR NOTIFICACION Al NUTRICIONISTA VIA EMAIL CUANDO SE CREE UNA CITA:
+const sendEmailNutritionist = async (nutritionistEmail, event, userName) => {
+  const transporter = nodemailer.createTransport({
+      host:"smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth:{
+          user:"pfhenry4@gmail.com",
+          pass:"tndvsvitmutasmpv",
+      },
+  });
+
+  await transporter.sendMail({
+      from: '"ZUCCA NUTRITION" <pfhenry4@gmail.com>',
+      to: nutritionistEmail,
+      subject:"¡Tienes asignada una nueva cita!",
+      html: `
+          <p>Paciente: ${userName}</p>
           <p>Fecha: ${event.dataValues.date}</p>
           <p>Hora: ${event.dataValues.hour}</p>
           <p>Motivo: ${event.dataValues.purpose}</p>
@@ -88,4 +113,5 @@ module.exports = {
   sendEmailNotification,
   sendAdvanceNotifications,
   sendEmailCreateEvent,
+  sendEmailNutritionist,
 };

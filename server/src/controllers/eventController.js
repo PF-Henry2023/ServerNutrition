@@ -1,5 +1,5 @@
 const { Event, User, Nutritionist} = require("../db");
-const { sendEmailCreateEvent } = require("../Utils/Notifications");
+const { sendEmailCreateEvent, sendEmailNutritionist } = require("../Utils/Notifications");
 
 //Creación de una cita:
 const createEvent = async (date, hour, purpose, NutritionistId, UserId) => {
@@ -8,10 +8,11 @@ const createEvent = async (date, hour, purpose, NutritionistId, UserId) => {
     // Verifica que el paciente y el médico existan antes de crear la cita
     const user = await User.findByPk(UserId);
     const userEmail = user.dataValues.email;
+    const userName = `${user.dataValues.name} ${user.dataValues.lastName}`;
     
     const nutritionist = await Nutritionist.findByPk(NutritionistId);
     const nutritionistName = `${nutritionist.dataValues.name} ${nutritionist.dataValues.lastName}`;
-
+    const nutritionistEmail = nutritionist.dataValues.email
     if (!user || !nutritionist) throw Error ('Paciente o Nutricionista no encontrado')
     // Crea la cita y asocia los IDs de paciente y médico
     const event = await Event.create({
@@ -21,8 +22,9 @@ const createEvent = async (date, hour, purpose, NutritionistId, UserId) => {
       NutritionistId,
       UserId,
     });
-    //funcion para enviar la notificación apenas se cree la cita:
+    //funcion para enviar la notificación al usuario y nutricionista apenas se cree la cita:
     sendEmailCreateEvent(userEmail, event, nutritionistName);
+    sendEmailNutritionist(nutritionistEmail, event, userName)
 
     return 'Cita creada exitosamente', event
   } catch (error) {
