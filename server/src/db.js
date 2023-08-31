@@ -45,7 +45,7 @@ const { Nutritionist, User, Event, WellnessPlan } = sequelize.models;
 
 //Relacion Usuario y citas:(1:M)
 User.hasMany(Event);//tiene muchas
-Event.belongsTo(User);//pertenece a 
+Event.belongsTo(User);//pertenece a    , {foreignKey: 'UserId'}
 
 //Relacion Nutricionista con citas:
 Nutritionist.hasMany(Event);//tiene muchas
