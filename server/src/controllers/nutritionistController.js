@@ -51,7 +51,15 @@ const getOneN = async (data) => {
 // Actualizar un usuario
 const updateN = async (id, data) => {
   try {
-    const allowedFields = ["name", "lastName", "email", "image", "password"];
+    const allowedFields = [
+      "name",
+      "lastName",
+      "email",
+      "image",
+      "password",
+      "diasDeTrabajo",
+      "horarioDeTrabajo",
+    ];
 
     // Verificar que solo los campos permitidos sean modificados
     const updateFields = Object.keys(data);
@@ -185,7 +193,7 @@ const checkCredentialsOauth = async (data) => {
 const registerOauthUser = async (data) => {
   try {
     const { email, name, picture, sub } = await decodeTokenOauth(data);
-    const [{ id, role }, created] = await Nutritionist.findOrCreate({
+    const [{ id }, created] = await Nutritionist.findOrCreate({
       where: { email },
       defaults: {
         name,
@@ -198,7 +206,7 @@ const registerOauthUser = async (data) => {
 
     //await newUserEmail(name, email);
 
-    const token = jwt.sign({ id, role }, process.env.SECRET_KEY);
+    const token = jwt.sign({ id }, process.env.SECRET_KEY);
     return token;
   } catch (error) {
     throw new Error(`Error during OAuth user registration: ${error.message}`);
