@@ -26,6 +26,31 @@ const sendEmailNotification = async (email, name) => {
 
 };
 
+//FUNCIÓN PARA ENVIAR NOTIFICACIONES VIA EMAIL CUANDO SE CREE UNA CITA:
+const sendEmailCreateEvent = async (userEmail, event, nutritionistName ) => {
+  const transporter = nodemailer.createTransport({
+      host:"smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth:{
+          user:"pfhenry4@gmail.com",
+          pass:"tndvsvitmutasmpv",
+      },
+  });
+
+  await transporter.sendMail({
+      from: '"ZUCCA NUTRITION" <pfhenry4@gmail.com>',
+      to: userEmail,
+      subject:"¡Cita creada exitosamente!",
+      html: `
+          <p>Nutricionista: ${nutritionistName}</p>
+          <p>Fecha: ${event.dataValues.date}</p>
+          <p>Hora: ${event.dataValues.hour}</p>
+          <p>Motivo: ${event.dataValues.purpose}</p>
+      `
+  });
+};
+
 
 
 //FUNCIÓN PARA ENVIAR NOTIFICACIONES VIA EMAIL CON HORAS DE ANTICIPACION:
@@ -66,4 +91,5 @@ const sendAdvanceNotifications = async (email) => {
 module.exports = {
   sendEmailNotification,
   sendAdvanceNotifications,
+  sendEmailCreateEvent,
 };
