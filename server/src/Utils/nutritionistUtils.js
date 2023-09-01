@@ -39,4 +39,11 @@ const getHorarioTrabajoCombinado = async () => {
 };
 
 const calcularPuntosNutricionista = () => {};
-module.exports = { getHorarioTrabajoCombinado, calcularPuntosNutricionista };
+const getDoc = (data) => {
+  return data[0];
+};
+module.exports = {
+  getHorarioTrabajoCombinado,
+  calcularPuntosNutricionista,
+  getDoc,
+};

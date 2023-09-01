@@ -10,7 +10,18 @@ const {
   checkCredentials,
   checkCredentialsOauth,
   registerOauthUser,
+  getDoctor,
 } = require("../controllers/nutritionistController");
+
+const getMyDoctor = async (req, res) => {
+  const { day, hour } = req.body;
+  try {
+    const response = await getDoctor(day, hour);
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 const createNutritionist = async (req, res) => {
   try {
@@ -129,4 +140,5 @@ module.exports = {
   loginNutritionist,
   loginOauthNutritionist,
   signupOauthNutritionist,
+  getMyDoctor,
 };
