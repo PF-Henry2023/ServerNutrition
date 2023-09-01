@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { Nutritionist } = require("../db");
+const { Nutritionist, Event } = require("../db");
 require("dotenv").config();
 const { decodeTokenOauth } = require("../Utils/google");
 
@@ -31,11 +31,33 @@ const getOneN = async (data) => {
   try {
     let nutritionist;
 
+    /*VideoGames.findAll({
+        include: [
+          {
+            model: Genres,
+            attributes: ["name"],
+            through: { attributes: [] },
+            as: "genres",
+          },
+        ],
+      }), */
     if (typeof data === "number") {
-      nutritionist = await Nutritionist.findByPk(data);
+      nutritionist = await Nutritionist.findOne({
+        where: { id: data },
+        include: [
+          {
+            model: Event,
+          },
+        ],
+      });
     } else {
       nutritionist = await Nutritionist.findOne({
         where: { name: data },
+        include: [
+          {
+            model: Event,
+          },
+        ],
       });
     }
 
