@@ -1,7 +1,8 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { Nutritionist } = require("../db");
+const { Nutritionist, Event } = require("../db");
 require("dotenv").config();
+const { decodeTokenOauth } = require("../Utils/google");
 
 const createN = async (nutritionist, password) => {
   try {
@@ -30,11 +31,33 @@ const getOneN = async (data) => {
   try {
     let nutritionist;
 
+    /*VideoGames.findAll({
+        include: [
+          {
+            model: Genres,
+            attributes: ["name"],
+            through: { attributes: [] },
+            as: "genres",
+          },
+        ],
+      }), */
     if (typeof data === "number") {
-      nutritionist = await Nutritionist.findByPk(data);
+      nutritionist = await Nutritionist.findOne({
+        where: { id: data },
+        include: [
+          {
+            model: Event,
+          },
+        ],
+      });
     } else {
       nutritionist = await Nutritionist.findOne({
         where: { name: data },
+        include: [
+          {
+            model: Event,
+          },
+        ],
       });
     }
 
@@ -56,8 +79,8 @@ const updateN = async (id, data) => {
       "email",
       "image",
       "password",
-      "license",
-      "specialty",
+      "diasDeTrabajo",
+      "horarioDeTrabajo",
     ];
 
     // Verificar que solo los campos permitidos sean modificados
@@ -152,6 +175,66 @@ const restoreN = async (id) => {
   }
 };
 
+//checkCredentials
+const checkCredentials = async ({ email, password }) => {
+  try {
+    const nutritionist = await Nutritionist.findOne({ where: { email } });
+    if (!nutritionist) throw new Error("Wrong email or password");
+
+    const isValidPassword = await bcrypt.compare(
+      password,
+      nutritionist.password
+    );
+    if (!isValidPassword || nutritionist.email !== email)
+      throw new Error("Wrong email or password");
+
+    const token = jwt.sign(nutritionist.dataValues, process.env.SECRET_KEY);
+    console.log(nutritionist.dataValues);
+    return token;
+  } catch (error) {
+    throw new Error(`Error checking credentials: ${error.message}`);
+  }
+};
+
+//checkCredentialsOauth
+const checkCredentialsOauth = async (data) => {
+  try {
+    const { email } = await decodeTokenOauth(data);
+    const nutritionist = await Nutritionist.findOne({ where: { email } });
+    if (!nutritionist)
+      throw new Error("¡A gmail account is not regiter for this user!");
+    if (nutritionist.isActive === false) throw new Error("This user is banned");
+
+    const token = jwt.sign({ id: nutritionist.id }, process.env.SECRET_KEY);
+    return token;
+  } catch (error) {
+    throw new Error(`Error checking credentials(Oauth 2.0): ${error.message}`);
+  }
+};
+//registerOauthUser
+const registerOauthUser = async (data) => {
+  try {
+    const { email, name, picture, sub } = await decodeTokenOauth(data);
+    const [{ id }, created] = await Nutritionist.findOrCreate({
+      where: { email },
+      defaults: {
+        name,
+        email,
+        image: picture,
+        googleId: sub,
+      },
+    });
+    if (!created) throw new Error("User already exists");
+
+    //await newUserEmail(name, email);
+
+    const token = jwt.sign({ id }, process.env.SECRET_KEY);
+    return token;
+  } catch (error) {
+    throw new Error(`Error during OAuth user registration: ${error.message}`);
+  }
+};
+
 module.exports = {
   softdeleteN,
   updateN,
@@ -159,4 +242,7 @@ module.exports = {
   restoreN,
   getOneN,
   createN,
+  checkCredentials,
+  checkCredentialsOauth,
+  registerOauthUser,
 };

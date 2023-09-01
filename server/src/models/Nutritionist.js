@@ -42,17 +42,22 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      license: {
-        type: DataTypes.STRING,
+      diasDeTrabajo: {
+        type: DataTypes.JSON,
         allowNull: false,
       },
-      specialty: {
-        type: DataTypes.STRING,
+      horarioDeTrabajo: {
+        type: DataTypes.JSON,
         allowNull: false,
       },
       isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
+      },
+      googleId: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        unique: true,
       },
     },
     { timestamps: false }

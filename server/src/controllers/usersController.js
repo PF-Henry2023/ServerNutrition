@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../db");
 const { decodeTokenOauth } = require("../Utils/google");
 require("dotenv").config();
-const { sendEmailNotification } = require("../Utils/genericFunctions");
+const { sendEmailNotification } = require("../Utils/Notifications");
 
 //Crea un usuario en la DB:
 
@@ -36,7 +36,7 @@ const createUserDB = async ({
     },
   });
   if (!created) throw new Error("User already exists");
-  sendEmailNotification(email);
+  sendEmailNotification(email, name);
   const token = jwt.sign(
     {
       id: user.id,
@@ -125,6 +125,17 @@ const getUser = async (token) => {
   return user;
 };
 
+// user id
+
+const getUserDetail = async (id) => {
+  const user = await User.findByPk(id);
+  if (!user) {
+    throw new Error("User not found");
+  }
+  return user;
+};
+
+
 //Actualizar un usuario:
 const updateUser = async (token, data) => {
   const allowedFields = [
@@ -180,7 +191,7 @@ const activateUser = async ({ id }) => {
 // delete user
 const deleteUser = async ({ id }) => {
   /**const { id } = jwt.verify(token, process.env.SECRET_KEY);**/
-  const user = await Users.findOne({ where: { id, isActive: true } });
+  const user = await User.findOne({ where: { id, isActive: true } });
   if (!user) {
     return {
       status: "User not found",
@@ -204,4 +215,5 @@ module.exports = {
   newUserOauth,
   authenticationOauth,
   activateUser,
+  getUserDetail
 };

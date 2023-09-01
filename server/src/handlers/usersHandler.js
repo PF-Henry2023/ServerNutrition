@@ -10,6 +10,7 @@ const {
   authenticationOauth,
   newUserOauth,
   activateUser,
+  getUserDetail
 } = require("../controllers/usersController");
 
 // ruta crear usuario y generar token.
@@ -24,6 +25,7 @@ const signup = async (req, res) => {
     address,
     gender,
     role,
+   
   } = req.body;
   try {
     const token = await createUserDB({
@@ -36,6 +38,7 @@ const signup = async (req, res) => {
       address,
       gender,
       role,
+      
     });
     const user = {
       name,
@@ -105,6 +108,19 @@ const user = async (req, res) => {
     res.status(400).json({ error: "Unauthorized" });
   }
 };
+//user id
+const userId = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const userDetail = await getUserDetail(id);
+    if (!userDetail) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json(userDetail);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 //ruta para actualizar un usuario:
 
@@ -156,4 +172,5 @@ module.exports = {
   loginOauth,
   activate,
   destroy,
+  userId
 };
