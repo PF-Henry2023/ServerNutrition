@@ -22,10 +22,12 @@ const createEvent = async (date, hour, purpose, NutritionistId, UserId) => {
       NutritionistId,
       UserId,
     });
+     
     //funcion para enviar la notificación al usuario y nutricionista apenas se cree la cita:
-    // sendEmailCreateEvent(userEmail, event, nutritionistName);
-    // sendEmailNutritionist(nutritionistEmail, event, userName)
+    sendEmailCreateEvent(userEmail, event, nutritionistName);
+    sendEmailNutritionist(nutritionistEmail, event, userName)
     sendAdvanceNotifications(userEmail)
+
 
     return 'Cita creada exitosamente', event
   } catch (error) {
