@@ -1,5 +1,5 @@
 const { Event, User, Nutritionist} = require("../db");
-const { sendEmailCreateEvent, sendEmailNutritionist } = require("../Utils/Notifications");
+const { sendEmailCreateEvent, sendEmailNutritionist, sendAdvanceNotifications } = require("../Utils/Notifications");
 
 //Creación de una cita:
 const createEvent = async (date, hour, purpose, NutritionistId, UserId) => {
@@ -23,8 +23,9 @@ const createEvent = async (date, hour, purpose, NutritionistId, UserId) => {
       UserId,
     });
     //funcion para enviar la notificación al usuario y nutricionista apenas se cree la cita:
-    sendEmailCreateEvent(userEmail, event, nutritionistName);
-    sendEmailNutritionist(nutritionistEmail, event, userName)
+    // sendEmailCreateEvent(userEmail, event, nutritionistName);
+    // sendEmailNutritionist(nutritionistEmail, event, userName)
+    sendAdvanceNotifications(userEmail)
 
     return 'Cita creada exitosamente', event
   } catch (error) {
