@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { User } = require("../db");
+const { User, Event } = require("../db");
 const { decodeTokenOauth } = require("../Utils/google");
 require("dotenv").config();
 const { sendEmailNotification } = require("../Utils/Notifications");
@@ -134,7 +134,6 @@ const getUserDetail = async (id) => {
   return user;
 };
 
-
 //Actualizar un usuario:
 const updateUser = async (token, data) => {
   const allowedFields = [
@@ -162,7 +161,7 @@ const updateUser = async (token, data) => {
 //Obtener todos los usuarios:
 const getAllUsers = async () => {
   try {
-    const usersDB = await User.findAll();
+    const usersDB = await User.findAll({ include: Event });
     if (usersDB.length === 0)
       throw Error("¡No hay usuarios en la base de datos!");
     return usersDB;
@@ -214,5 +213,5 @@ module.exports = {
   newUserOauth,
   authenticationOauth,
   activateUser,
-  getUserDetail
+  getUserDetail,
 };
