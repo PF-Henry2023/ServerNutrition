@@ -12,6 +12,8 @@ const {
   registerOauthUser,
 } = require("../controllers/nutritionistController");
 
+const { getHorarioTrabajoCombinado } = require("../Utils/nutritionistUtils");
+
 const createNutritionist = async (req, res) => {
   try {
     const { password, ...nutritionistProperties } = req.body;
@@ -119,6 +121,17 @@ const signupOauthNutritionist = async (req, res) => {
   }
 };
 
+const getSchedule = async (req, res) => {
+  try {
+    const horarioCombinado = await getHorarioTrabajoCombinado();
+    res.status(200).json(horarioCombinado);
+
+  } catch (error) {
+    res.status(400).json({ error: error.message })
+  }
+}
+
+
 module.exports = {
   createNutritionist,
   getAllNutritionists,
@@ -129,4 +142,5 @@ module.exports = {
   loginNutritionist,
   loginOauthNutritionist,
   signupOauthNutritionist,
+  getSchedule
 };

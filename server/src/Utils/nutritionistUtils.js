@@ -6,37 +6,24 @@ const getHorarioTrabajoCombinado = async () => {
       where: { isActive: true },
     });
 
-    const horarioCombinado = {
-      diasDeTrabajoCombinados: [],
-      horarioDeTrabajo: {},
-    };
-
-    const conjuntoDiasUnicos = new Set();
+    const horarioCombinado = {};
 
     for (let i = 0; i < nutricionistasDesdeBD.length; i++) {
-      const nutricionistaJSON = nutricionistasDesdeBD[i].toJSON();
-      const diasDeTrabajo = nutricionistaJSON.diasDeTrabajo;
-
-      for (const dia of diasDeTrabajo) {
-        conjuntoDiasUnicos.add(dia);
-        const horarioTrabajoArr = nutricionistaJSON.horarioDeTrabajo[dia];
-
-        if (!horarioCombinado.horarioDeTrabajo[dia]) {
-          horarioCombinado.horarioDeTrabajo[dia] = [];
+      const diasDeTrabajo = nutricionistasDesdeBD[i].toJSON().diasDeTrabajo; //[[]]
+      for (const day in diasDeTrabajo) {
+        if (!horarioCombinado[day]) {
+          horarioCombinado[day] = [];
         }
-
-        horarioCombinado.horarioDeTrabajo[dia] =
-          horarioCombinado.horarioDeTrabajo[dia].concat(horarioTrabajoArr);
+        horarioCombinado[day].push(...diasDeTrabajo[day]);
       }
     }
-
-    horarioCombinado.diasDeTrabajoCombinados = Array.from(conjuntoDiasUnicos);
-
+    console.log(horarioCombinado);
     return horarioCombinado;
   } catch (error) {
     return new Error(error);
   }
 };
+
 
 const calcularPuntosNutricionista = () => {};
 module.exports = { getHorarioTrabajoCombinado, calcularPuntosNutricionista };

@@ -29,6 +29,7 @@ module.exports = (sequelize) => {
       image: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: "123.jpg"
       },
       email: {
         type: DataTypes.STRING,
@@ -43,10 +44,6 @@ module.exports = (sequelize) => {
         allowNull: false,
       },
       diasDeTrabajo: {
-        type: DataTypes.JSON,
-        allowNull: false,
-      },
-      horarioDeTrabajo: {
         type: DataTypes.JSON,
         allowNull: false,
       },

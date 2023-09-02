@@ -69,6 +69,7 @@ const getAllEvents = async () => {
     if(allEvents.length === 0) throw Error("¡No hay citas creadas en la base de datos");
     return allEvents;
 }
+
 module.exports = {
     createEvent,
     deleteEvent,

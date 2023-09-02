@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { User } = require("../db");
+const { User, Event } = require("../db");
 const { decodeTokenOauth } = require("../Utils/google");
 require("dotenv").config();
 const { sendEmailNotification } = require("../Utils/Notifications");
@@ -128,7 +128,16 @@ const getUser = async (token) => {
 // user id
 
 const getUserDetail = async (id) => {
-  const user = await User.findByPk(id);
+  const user = await User.findOne({
+    where: {
+      id: id,
+    },
+    include: [
+      {
+        model: Event,
+      },
+    ],
+  });
   if (!user) {
     throw new Error("User not found");
   }
