@@ -23,12 +23,16 @@ const scopes = [
   scope: scopes,
 }); */
 
+// Guardar en una cookie el token de acceso
+
+// Obtener todos los eventos de usuario registrado
+
 const getAllEvents = async (req, res) => {
   try {
     const { calendarId } = req.query;
 		const date = new Date().toISOString(); 
     const { data } = await axios.get(
-      `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?timeMin=${date}&key=${YOUR_API_KEY}`
+      `https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?orderBy=startTime&singleEvents=true&timeMin=${date}&key=${YOUR_API_KEY}`
     );
     return res.status(200).json({ response: data.items });
   } catch (error) {

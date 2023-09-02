@@ -10,6 +10,7 @@ const {
   loginNutritionist,
   loginOauthNutritionist,
   signupOauthNutritionist,
+  getSchedule,
   getMyDoctor,
 } = require("../handlers/nutritionistHandler.js");
 const nutritionistRouter = Router();
@@ -28,5 +29,6 @@ nutritionistRouter.put("/restore/:id", restoreNutritionist);
 nutritionistRouter.post("/login", loginNutritionist);
 nutritionistRouter.post("/login/oauth2.0", loginOauthNutritionist);
 nutritionistRouter.post("/signup/oauth2.0", signupOauthNutritionist);
+nutritionistRouter.get("/horariosCombinados", getSchedule);
 
 module.exports = nutritionistRouter;

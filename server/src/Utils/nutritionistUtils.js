@@ -17,13 +17,13 @@ const getHorarioTrabajoCombinado = async () => {
         horarioCombinado[day].push(...diasDeTrabajo[day]);
       }
     }
+    console.log(horarioCombinado);
     return horarioCombinado;
   } catch (error) {
     return new Error(error);
   }
 };
 
-//estas 2 funcionan por igual
 const calcularPuntosNutricionista = () => {};
 const getDoc = (data) => {
   return data[0];
