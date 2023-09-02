@@ -28,8 +28,7 @@ module.exports = (sequelize) => {
       },
       image: {
         type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: "123.jpg"
+        defaultValue: "imagen.jpg",
       },
       email: {
         type: DataTypes.STRING,
