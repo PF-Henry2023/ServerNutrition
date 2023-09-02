@@ -10,12 +10,13 @@ const getHorarioTrabajoCombinado = async () => {
 
     for (let i = 0; i < nutricionistasDesdeBD.length; i++) {
       const diasDeTrabajo = nutricionistasDesdeBD[i].toJSON().diasDeTrabajo; //[[]]
-    }
-    for (const day in diasDeTrabajo) {
-      if (!horarioCombinado[day]) {
-        horarioCombinado[day] = [];
+      for (const day in diasDeTrabajo) {
+        //diasDeTrabajo[[]], day = index
+        if (!horarioCombinado[day]) {
+          horarioCombinado[day] = [];
+        }
+        horarioCombinado[day].push(...diasDeTrabajo[day]);
       }
-      horarioCombinado[day].push(diasDeTrabajo[day]);
     }
     return horarioCombinado;
   } catch (error) {
