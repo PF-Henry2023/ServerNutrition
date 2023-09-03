@@ -21,15 +21,15 @@ const getDoctor = async (day, hour) => {
       const hoursN = Object.values(diasDeTrabajo);
 
       for (let i = 0; i < daysN.length; i++) {
-        // console.log("Horarios nutricionista n°", i);
-        // console.log(Number(daysN[i]));
-        // console.log(hoursN[i]);
-        if (Number(daysN[i]) === day && hoursN[i].includes(hour)) {
-          return N;
+        if (Number(daysN[i]) === day) {
+          for (const range in hoursN[i]) {
+            if (hoursN[i][range][0] === hour) {
+              return N;
+            }
+          }
         }
       }
     });
-    //filtra por hora y dia
 
     if (nutritionistsFiltered.length === 0) {
       throw new Error("No nutritionist for that date!");

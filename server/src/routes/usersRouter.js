@@ -12,7 +12,7 @@ const {
   loginOauth,
   signupOauth,
   activate,
-  userId
+  userId,
 } = require("../handlers/usersHandler");
 
 const { ensureToken, onlyAdmin } = require("../Utils/seguridad");
@@ -20,9 +20,7 @@ const { ensureToken, onlyAdmin } = require("../Utils/seguridad");
 // endpoints: ruta de acceso a nuestro backend;
 usersRouter.get(
   "/allUsers",
-  
- 
- 
+
   getAllUsersHandler
 );
 usersRouter.get("/", ensureToken, user);
