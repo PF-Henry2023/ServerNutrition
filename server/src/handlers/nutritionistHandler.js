@@ -12,6 +12,7 @@ const {
   registerOauthUser,
   getDoctor,
 } = require("../controllers/nutritionistController");
+const { getHorarioTrabajoCombinado } = require("../Utils/nutritionistUtils.js");
 
 
 const { getHorarioTrabajoCombinado } = require("../Utils/nutritionistUtils");
@@ -25,6 +26,15 @@ const getMyDoctor = async (req, res) => {
   }
 };
 
+
+const gethorariosCombinados = async (req, res) => {
+  try {
+    const response = await getHorarioTrabajoCombinado();
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
 const createNutritionist = async (req, res) => {
   try {
@@ -156,4 +166,5 @@ module.exports = {
   signupOauthNutritionist,
   getSchedule
   getMyDoctor,
+  gethorariosCombinados,
 };
