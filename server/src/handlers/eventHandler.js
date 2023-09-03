@@ -62,6 +62,7 @@ const getAllEventsHandler = async (req, res) => {
     res.status(400).json({ error: "error getting events" });
   }
 };
+
 module.exports = {
   createEventHandler,
   deleteEventHandler,
