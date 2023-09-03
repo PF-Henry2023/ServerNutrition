@@ -1,13 +1,25 @@
 const express = require("express");
+//const http = require("http");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const routes = require("./routes/index.js");
-
+//const { Server } = require("socket.io");
 require("./db.js");
 
 const server = express();
-
+/* const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:5173"
+  }
+})
+io.on('connection', (socket) => {
+  console.log('usuario conectado', socket.id);
+  socket.on('disconnect', () => {
+    console.log("usuario desconectado");
+  })
+}); */
 server.name = "API";
 
 server.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
@@ -32,5 +44,9 @@ server.use((err, req, res, next) => {
   console.error(err);
   res.status(status).send(message);
 });
+
+// Eventos de webSocket
+
+
 
 module.exports = server;
