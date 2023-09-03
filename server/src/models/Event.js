@@ -17,10 +17,15 @@ module.exports = (sequelize) => {
         type: DataTypes.TIME,
         allowNull: false,
       },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
       purpose: {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      isCurrent: {},
     },
     { timestamps: false }
   );
