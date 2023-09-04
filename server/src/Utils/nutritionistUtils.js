@@ -24,6 +24,7 @@ const getHorarioTrabajoCombinado = async () => {
   }
 };
 
+
 const calcularPuntosNutricionista = () => {};
 const getDoc = (data) => {
   return data[0];

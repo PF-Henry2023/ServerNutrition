@@ -73,7 +73,7 @@ const newUserOauth = async (data) => {
     return message;
   }
   //await newUserEmail(name, email);
-  const token = `Bearer ${jwt.sign({ id, role }, process.env.SECRET_KEY)}`;
+  const token = jwt.sign({ id, role, name, image: picture }, process.env.SECRET_KEY);
   return token;
 };
 
@@ -85,7 +85,7 @@ const authenticationOauth = async (data) => {
   if (user.isActive === false) throw new Error("This user is banned");
 
   const token = jwt.sign(
-    { id: user.id, role: user.role },
+    { id: user.id, role: user.role, image: user.image, name: user.name},
     process.env.SECRET_KEY
   );
   return token;

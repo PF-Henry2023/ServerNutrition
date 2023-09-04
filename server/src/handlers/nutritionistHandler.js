@@ -164,7 +164,7 @@ module.exports = {
   loginNutritionist,
   loginOauthNutritionist,
   signupOauthNutritionist,
-  getSchedule
+  getSchedule,
   getMyDoctor,
   gethorariosCombinados,
 };
