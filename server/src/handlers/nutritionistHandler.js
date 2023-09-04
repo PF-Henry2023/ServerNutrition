@@ -14,8 +14,6 @@ const {
 } = require("../controllers/nutritionistController");
 const { getHorarioTrabajoCombinado } = require("../Utils/nutritionistUtils.js");
 
-
-const { getHorarioTrabajoCombinado } = require("../Utils/nutritionistUtils");
 const getMyDoctor = async (req, res) => {
   const { day, hour } = req.body;
   try {
