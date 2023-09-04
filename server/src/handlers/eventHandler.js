@@ -7,18 +7,12 @@ const {
 } = require("../controllers/eventController");
 
 const createEventHandler = async (req, res) => {
-  const { date, hour, purpose, NutritionistId, UserId } = req.body;
+  const event = req.body;
   try {
-    const response = await createEvent(
-      date,
-      hour,
-      purpose,
-      NutritionistId,
-      UserId
-    );
+    const response = await createEvent(event);
     res.status(200).json(response);
   } catch (error) {
-    res.status(400).json({ error: "Error creating event" });
+    res.status(400).json({ error: error.message });
   }
 };
 

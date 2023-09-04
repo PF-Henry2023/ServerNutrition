@@ -25,52 +25,52 @@ const sendEmailNotification = async (email, name) => {
 };
 
 //FUNCIÓN PARA ENVIAR NOTIFICACION Al PACIENTE VIA EMAIL CUANDO SE CREE UNA CITA:
-const sendEmailCreateEvent = async (userEmail, event, nutritionistName ) => {
+const sendEmailCreateEvent = async (userEmail, event, nutritionistName) => {
   const transporter = nodemailer.createTransport({
-      host:"smtp.gmail.com",
-      port: 465,
-      secure: true,
-      auth:{
-          user:"pfhenry4@gmail.com",
-          pass:"tndvsvitmutasmpv",
-      },
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: "pfhenry4@gmail.com",
+      pass: "tndvsvitmutasmpv",
+    },
   });
 
   await transporter.sendMail({
-      from: '"ZUCCA NUTRITION" <pfhenry4@gmail.com>',
-      to: userEmail,
-      subject:"¡Cita creada exitosamente!",
-      html: `
+    from: '"ZUCCA NUTRITION" <pfhenry4@gmail.com>',
+    to: userEmail,
+    subject: "¡Cita creada exitosamente!",
+    html: `
           <p>Nutricionista: ${nutritionistName}</p>
           <p>Fecha: ${event.dataValues.date}</p>
           <p>Hora: ${event.dataValues.hour}</p>
           <p>Motivo: ${event.dataValues.purpose}</p>
-      `
+      `,
   });
 };
 
 //FUNCIÓN PARA ENVIAR NOTIFICACION Al NUTRICIONISTA VIA EMAIL CUANDO SE CREE UNA CITA:
 const sendEmailNutritionist = async (nutritionistEmail, event, userName) => {
   const transporter = nodemailer.createTransport({
-      host:"smtp.gmail.com",
-      port: 465,
-      secure: true,
-      auth:{
-          user:"pfhenry4@gmail.com",
-          pass:"tndvsvitmutasmpv",
-      },
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: "pfhenry4@gmail.com",
+      pass: "tndvsvitmutasmpv",
+    },
   });
 
   await transporter.sendMail({
-      from: '"ZUCCA NUTRITION" <pfhenry4@gmail.com>',
-      to: nutritionistEmail,
-      subject:"¡Tienes asignada una nueva cita!",
-      html: `
+    from: '"ZUCCA NUTRITION" <pfhenry4@gmail.com>',
+    to: nutritionistEmail,
+    subject: "¡Tienes asignada una nueva cita!",
+    html: `
           <p>Paciente: ${userName}</p>
           <p>Fecha: ${event.dataValues.date}</p>
           <p>Hora: ${event.dataValues.hour}</p>
           <p>Motivo: ${event.dataValues.purpose}</p>
-      `
+      `,
   });
 };
 
@@ -92,9 +92,7 @@ const sendAdvanceNotifications = async (email) => {
   //Calcular la hora 72 horas antes de la cita:
   console.log(citaMedicaDate.getTime());
   const notificationDate = new Date(
-    
     citaMedicaDate.getTime() - 0.25 * 60 * 60 * 1000
-
   ); // se resta 72 horas en milisegundos
 
   // Calcular el tiempo hasta la notificacion:
