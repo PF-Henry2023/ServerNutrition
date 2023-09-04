@@ -24,7 +24,6 @@ const getMyDoctor = async (req, res) => {
   }
 };
 
-
 const gethorariosCombinados = async (req, res) => {
   try {
     const response = await getHorarioTrabajoCombinado();
@@ -145,12 +144,10 @@ const getSchedule = async (req, res) => {
   try {
     const horarioCombinado = await getHorarioTrabajoCombinado();
     res.status(200).json(horarioCombinado);
-
   } catch (error) {
-    res.status(400).json({ error: error.message })
+    res.status(400).json({ error: error.message });
   }
-}
-
+};
 
 module.exports = {
   createNutritionist,

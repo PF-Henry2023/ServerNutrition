@@ -261,7 +261,6 @@ const registerOauthUser = async (data) => {
   }
 };
 
-
 module.exports = {
   softdeleteN,
   updateN,
