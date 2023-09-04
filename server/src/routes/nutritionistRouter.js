@@ -11,6 +11,8 @@ const {
   loginOauthNutritionist,
   signupOauthNutritionist,
   getSchedule,
+  getMyDoctor,
+  gethorariosCombinados,
 } = require("../handlers/nutritionistHandler.js");
 const nutritionistRouter = Router();
 //post
@@ -18,6 +20,9 @@ nutritionistRouter.post("/create", createNutritionist);
 //get
 nutritionistRouter.get("/list", getAllNutritionists);
 nutritionistRouter.get("/searchBy", getOneNutritionist);
+nutritionistRouter.get("/myDoctor", getMyDoctor);
+nutritionistRouter.get("/horariosCombinados", gethorariosCombinados);
+
 //delte
 nutritionistRouter.delete("/delete/:id", deleteNutritionist);
 //put

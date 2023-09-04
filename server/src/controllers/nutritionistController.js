@@ -3,6 +3,43 @@ const jwt = require("jsonwebtoken");
 const { Nutritionist, Event } = require("../db");
 require("dotenv").config();
 const { decodeTokenOauth } = require("../Utils/google");
+const { getDoc } = require("../Utils/nutritionistUtils");
+
+const getDoctor = async (day, hour) => {
+  try {
+    const nutritionistsfromDB = await Nutritionist.findAll();
+
+    if (nutritionistsfromDB.length === 0) {
+      throw new Error("No users found in the database!");
+    }
+    //filtrar aqui
+    console.log(day, "---------", hour);
+    const nutritionistsFiltered = nutritionistsfromDB.filter((N) => {
+      //obtener variables
+      const { diasDeTrabajo } = N.toJSON();
+      const daysN = Object.keys(diasDeTrabajo);
+      const hoursN = Object.values(diasDeTrabajo);
+
+      for (let i = 0; i < daysN.length; i++) {
+        if (Number(daysN[i]) === day) {
+          for (const range in hoursN[i]) {
+            if (hoursN[i][range][0] === hour) {
+              return N;
+            }
+          }
+        }
+      }
+    });
+
+    if (nutritionistsFiltered.length === 0) {
+      throw new Error("No nutritionist for that date!");
+    }
+    const Doc = getDoc(nutritionistsFiltered);
+    return Doc;
+  } catch (error) {
+    throw new Error(`Error x: ${error.message}`);
+  }
+};
 
 const createN = async (nutritionist, password) => {
   try {
@@ -30,17 +67,6 @@ const createN = async (nutritionist, password) => {
 const getOneN = async (data) => {
   try {
     let nutritionist;
-
-    /*VideoGames.findAll({
-        include: [
-          {
-            model: Genres,
-            attributes: ["name"],
-            through: { attributes: [] },
-            as: "genres",
-          },
-        ],
-      }), */
     if (typeof data === "number") {
       nutritionist = await Nutritionist.findOne({
         where: { id: data },
@@ -246,4 +272,5 @@ module.exports = {
   checkCredentials,
   checkCredentialsOauth,
   registerOauthUser,
+  getDoctor,
 };
