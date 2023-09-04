@@ -171,7 +171,6 @@ const updateUser = async (token, data) => {
 //Obtener todos los usuarios:
 const getAllUsers = async () => {
   try {
-
     const usersDB = await User.findAll({ include: Event });
     if (usersDB.length === 0)
       throw Error("¡No hay usuarios en la base de datos!");
