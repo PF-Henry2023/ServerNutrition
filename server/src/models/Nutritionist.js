@@ -46,6 +46,10 @@ module.exports = (sequelize) => {
         type: DataTypes.JSON,
         allowNull: false,
       },
+      busyDays: {
+        type: DataTypes.JSON,
+        defaultValue: {}, // Set an appropriate initial value
+      },
       isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

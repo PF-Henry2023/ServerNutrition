@@ -11,6 +11,8 @@ const {
   checkCredentialsOauth,
   registerOauthUser,
   getDoctor,
+  addScheduleS,
+  deleteScheduleS,
 } = require("../controllers/nutritionistController");
 const { getHorarioTrabajoCombinado } = require("../Utils/nutritionistUtils.js");
 
@@ -149,6 +151,28 @@ const getSchedule = async (req, res) => {
   }
 };
 
+//updateBusyDays
+const addScheduleSlot = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedSchedule = await addScheduleS(id, req.body);
+    res.status(200).json(updatedSchedule);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+//deleteScheduleSlot
+const deleteScheduleSlot = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updatedSchedule = await deleteScheduleS(id, req.body);
+    res.status(200).json(updatedSchedule);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createNutritionist,
   getAllNutritionists,
@@ -162,4 +186,6 @@ module.exports = {
   getSchedule,
   getMyDoctor,
   gethorariosCombinados,
+  addScheduleSlot,
+  deleteScheduleSlot,
 };

@@ -43,7 +43,7 @@ const sendEmailCreateEvent = async (userEmail, event, nutritionistName) => {
     html: `
           <p>Nutricionista: ${nutritionistName}</p>
           <p>Fecha: ${event.dataValues.date}</p>
-          <p>Hora: ${event.dataValues.hour}</p>
+          <p>Hora: ${event.dataValues.hour}hs.</p>
           <p>Motivo: ${event.dataValues.purpose}</p>
       `,
   });
@@ -68,7 +68,7 @@ const sendEmailNutritionist = async (nutritionistEmail, event, userName) => {
     html: `
           <p>Paciente: ${userName}</p>
           <p>Fecha: ${event.dataValues.date}</p>
-          <p>Hora: ${event.dataValues.hour}</p>
+          <p>Hora: ${event.dataValues.hour}hs.</p>
           <p>Motivo: ${event.dataValues.purpose}</p>
       `,
   });

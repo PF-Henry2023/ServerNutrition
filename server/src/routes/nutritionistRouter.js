@@ -13,6 +13,8 @@ const {
   getSchedule,
   getMyDoctor,
   gethorariosCombinados,
+  addScheduleSlot,
+  deleteScheduleSlot,
 } = require("../handlers/nutritionistHandler.js");
 const nutritionistRouter = Router();
 //post
@@ -28,6 +30,9 @@ nutritionistRouter.delete("/delete/:id", deleteNutritionist);
 //put
 nutritionistRouter.put("/update/:id", updateNutritionist);
 nutritionistRouter.put("/restore/:id", restoreNutritionist);
+nutritionistRouter.put("/addScheduleSlot/:id", addScheduleSlot);
+nutritionistRouter.put("/deleteScheduleSlot/:id", deleteScheduleSlot);
+
 //logeo con terceross
 nutritionistRouter.post("/login", loginNutritionist);
 nutritionistRouter.post("/login/oauth2.0", loginOauthNutritionist);

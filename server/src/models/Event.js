@@ -17,10 +17,6 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      day: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
       isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
