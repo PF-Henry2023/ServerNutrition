@@ -21,6 +21,14 @@ module.exports = (sequelize) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
+      busyDays: {
+        type: DataTypes.JSON,
+        defaultValue: {}, // Set an appropriate initial value
+      },
+      isActive: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+      },
       purpose: {
         type: DataTypes.STRING,
         allowNull: true,

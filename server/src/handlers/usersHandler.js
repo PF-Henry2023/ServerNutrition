@@ -76,7 +76,7 @@ const loginOauth = async (req, res) => {
   const { tokenId } = req.body; //Encoded token
   try {
     const tokenResponse = await authenticationOauth(tokenId);
-    res.status(200).json({ token: `Bearer ${tokenResponse}` });
+    res.status(200).json({ token: tokenResponse });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }

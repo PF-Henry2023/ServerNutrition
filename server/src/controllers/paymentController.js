@@ -1,22 +1,24 @@
 const Stripe = require("stripe");
 const { STRIPE_PRIVATE_KEY } = process.env;
-const stripe = new Stripe(STRIPE_PRIVATE_KEY)
+const stripe = new Stripe(STRIPE_PRIVATE_KEY);
 
 const createSession = async (req, res) => {
-    const session = await stripe.checkout.sessions.create({/*funcion para generar una orden de compra */
-        line_items:[
-            {
-                price_data: {/* para especificar cual es el nombre del producto */
-                   product_data: {
-                    name: "Cita Nutricionista",
-                    description: "orden de cita con el nutricionista",
-                   },
-                   currency: "usd",/* tipo de moneda */
-                   unit_amount: 20000, /* se coloca en centavos el monto del producto: seria igual a 200.00 dolares*/
-                }, 
-                quantity: 2,/* cantidad de productos que se compran  */
-            },
-           /*  
+  const session = await stripe.checkout.sessions.create({
+    /*funcion para generar una orden de compra */
+    line_items: [
+      {
+        price_data: {
+          /* para especificar cual es el nombre del producto */
+          product_data: {
+            name: "Cita Nutricionista",
+            description: "orden de cita con el nutricionista",
+          },
+          currency: "usd" /* tipo de moneda */,
+          unit_amount: 20000 /* se coloca en centavos el monto del producto: seria igual a 200.00 dolares*/,
+        },
+        quantity: 2 /* cantidad de productos que se compran  */,
+      },
+      /*  
             {
                 // podemos añadir mas productos
                 price_data: {
@@ -30,15 +32,17 @@ const createSession = async (req, res) => {
                 quantity: 1,
             }
              */
-        ],
-        /* ahora ponemos el modo en que va a pagar: payment es un pago de una sola vez y subscription es de varias veces*/
-        mode: 'payment',/* modo de pago de una sola vez, ejemplo: una sola cita*/
-        success_url: "http://localhost:5173/success", /* me redirecciona cuando el pago haya sido exitoso */
-        cancel_url: "http://localhost:5173/cancel", /* me redirecciona cuando el pago haya sido rechazado */
-    })
-    return res.json(session)
-}
+    ],
+    /* ahora ponemos el modo en que va a pagar: payment es un pago de una sola vez y subscription es de varias veces*/
+    mode: "payment" /* modo de pago de una sola vez, ejemplo: una sola cita*/,
+    success_url:
+      "http://localhost:5173/success" /* me redirecciona cuando el pago haya sido exitoso */,
+    cancel_url:
+      "http://localhost:5173/cancel" /* me redirecciona cuando el pago haya sido rechazado */,
+  });
+  return res.json(session);
+};
 
 module.exports = {
-    createSession,
-}
+  createSession,
+};
