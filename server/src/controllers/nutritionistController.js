@@ -7,16 +7,20 @@ const { getDoc } = require("../Utils/nutritionistUtils");
 
 const getDoctor = async (day, hour) => {
   try {
-    const nutritionistsfromDB = await Nutritionist.findAll();
+    const nutritionistsfromDB = await Nutritionist.findAll({
+      include: [
+        {
+          model: Event,
+        },
+      ],
+    });
 
     if (nutritionistsfromDB.length === 0) {
       throw new Error("No users found in the database!");
     }
-    //filtrar aqui
-    console.log(day, "---------", hour);
     const nutritionistsFiltered = nutritionistsfromDB.filter((N) => {
-      //obtener variables
-      const { diasDeTrabajo } = N.toJSON();
+      const nutritionist = N.toJSON();
+      const { diasDeTrabajo } = nutritionist;
       const daysN = Object.keys(diasDeTrabajo);
       const hoursN = Object.values(diasDeTrabajo);
 
@@ -24,17 +28,17 @@ const getDoctor = async (day, hour) => {
         if (Number(daysN[i]) === day) {
           for (const range in hoursN[i]) {
             if (hoursN[i][range][0] === hour) {
-              return N;
+              return nutritionist;
             }
           }
         }
       }
     });
-
     if (nutritionistsFiltered.length === 0) {
       throw new Error("No nutritionist for that date!");
     }
     const Doc = getDoc(nutritionistsFiltered);
+
     return Doc;
   } catch (error) {
     throw new Error(`Error x: ${error.message}`);
@@ -99,15 +103,7 @@ const getOneN = async (data) => {
 // Actualizar un usuario
 const updateN = async (id, data) => {
   try {
-    const allowedFields = [
-      "name",
-      "lastName",
-      "email",
-      "image",
-      "password",
-      "diasDeTrabajo",
-      "horarioDeTrabajo",
-    ];
+    const allowedFields = ["name", "lastName", "email", "image", "password"];
 
     // Verificar que solo los campos permitidos sean modificados
     const updateFields = Object.keys(data);
@@ -261,6 +257,75 @@ const registerOauthUser = async (data) => {
   }
 };
 
+//updateBusyD
+const addScheduleS = async (id, dateDetail) => {
+  try {
+    const { date, hour } = dateDetail;
+    const nutritionist = await Nutritionist.findByPk(id);
+    if (!nutritionist) {
+      throw new Error(`nutritionist not found!`);
+    }
+    const busyDays = nutritionist.dataValues.busyDays;
+    if (!busyDays[date]) {
+      busyDays[date] = [];
+    }
+    busyDays[date].push([hour, hour + 1]);
+    await Nutritionist.update(
+      { busyDays },
+      {
+        where: { id },
+      }
+    );
+
+    const updatedNutritionist = await Nutritionist.findByPk(id);
+
+    return updatedNutritionist;
+  } catch (error) {
+    throw new Error(`Error updating nutritionist: ${error.message}`);
+  }
+};
+
+const deleteScheduleS = async (id, dateDetail) => {
+  try {
+    const { date, hour } = dateDetail;
+    const nutritionist = await Nutritionist.findByPk(id);
+    if (!nutritionist) {
+      throw new Error(`Nutritionist not found!`);
+    }
+
+    const busyDays = nutritionist.dataValues.busyDays;
+
+    // Verifica si el día existe en el calendario
+    if (busyDays[date]) {
+      // Filtra los horarios que no coinciden con el horario que se desea eliminar
+      busyDays[date] = busyDays[date].filter(([start, end]) => {
+        return start !== hour || end !== hour + 1;
+      });
+
+      // Elimina el día si ya no tiene horarios ocupados
+      if (busyDays[date].length === 0) {
+        delete busyDays[date];
+      }
+
+      // Actualiza el registro del nutricionista con el calendario modificado
+      await Nutritionist.update(
+        { busyDays },
+        {
+          where: { id },
+        }
+      );
+
+      const updatedNutritionist = await Nutritionist.findByPk(id);
+
+      return updatedNutritionist;
+    } else {
+      throw new Error(`No busy schedule for the specified date: ${date}`);
+    }
+  } catch (error) {
+    throw new Error(`Error updating nutritionist: ${error.message}`);
+  }
+};
+
 module.exports = {
   softdeleteN,
   updateN,
@@ -272,4 +337,6 @@ module.exports = {
   checkCredentialsOauth,
   registerOauthUser,
   getDoctor,
+  addScheduleS,
+  deleteScheduleS,
 };
