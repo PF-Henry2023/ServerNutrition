@@ -50,6 +50,10 @@ module.exports = (sequelize) => {
         type: DataTypes.JSON,
         defaultValue: {}, // Set an appropriate initial value
       },
+      contEventsThisWeek: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0, // Set an appropriate initial value
+      },
       isActive: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

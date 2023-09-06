@@ -14,10 +14,9 @@ const getHorarioTrabajoCombinado = async () => {
         if (!horarioCombinado[day]) {
           horarioCombinado[day] = [];
         }
-        horarioCombinado[day].push(...diasDeTrabajo[day]);
+        horarioCombinado[day].push();
       }
     }
-    console.log(horarioCombinado);
     return horarioCombinado;
   } catch (error) {
     return new Error(error);

@@ -5,7 +5,7 @@ require("dotenv").config();
 const { decodeTokenOauth } = require("../Utils/google");
 const { getDoc } = require("../Utils/nutritionistUtils");
 
-const getDoctor = async (day, hour) => {
+const getDoctor = async () => {
   try {
     const nutritionistsfromDB = await Nutritionist.findAll({
       include: [
@@ -18,27 +18,13 @@ const getDoctor = async (day, hour) => {
     if (nutritionistsfromDB.length === 0) {
       throw new Error("No users found in the database!");
     }
-    const nutritionistsFiltered = nutritionistsfromDB.filter((N) => {
+
+    const nutritionists = nutritionistsfromDB.map((N) => {
       const nutritionist = N.toJSON();
-      const { diasDeTrabajo } = nutritionist;
-      const daysN = Object.keys(diasDeTrabajo);
-      const hoursN = Object.values(diasDeTrabajo);
-
-      for (let i = 0; i < daysN.length; i++) {
-        if (Number(daysN[i]) === day) {
-          for (const range in hoursN[i]) {
-            if (hoursN[i][range][0] === hour) {
-              return nutritionist;
-            }
-          }
-        }
-      }
+      return nutritionist;
     });
-    if (nutritionistsFiltered.length === 0) {
-      throw new Error("No nutritionist for that date!");
-    }
-    const Doc = getDoc(nutritionistsFiltered);
 
+    const Doc = getDoc(nutritionists);
     return Doc;
   } catch (error) {
     throw new Error(`Error x: ${error.message}`);
