@@ -14,7 +14,7 @@ const createSession = async (req, res) => {
             description: "orden de cita con el nutricionista",
           },
           currency: "usd" /* tipo de moneda */,
-          unit_amount: 20000 /* se coloca en centavos el monto del producto: seria igual a 200.00 dolares*/,
+          unit_amount: 5500 /* se coloca en centavos el monto del producto: seria igual a 55.00 dolares*/,
         },
         quantity: 2 /* cantidad de productos que se compran  */,
       },
