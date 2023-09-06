@@ -11,6 +11,9 @@ const getDoctor = async () => {
       include: [
         {
           model: Event,
+          where: {
+            isActive: true,
+          },
         },
       ],
     });
