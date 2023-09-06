@@ -146,7 +146,8 @@ const getAllUsersHandler = async (req, res) => {
 
 const activate = async (req, res) => {
   try {
-    const status = await activateUser(req.body);
+    const { id } = req.params;
+    const status = await activateUser(id);
     res.status(200).json(status);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -155,8 +156,9 @@ const activate = async (req, res) => {
 
 const destroy = async (req, res) => {
   try {
-    const status = await deleteUser(req.body);
-    res.status(200).json(status);
+    const { id } = req.params;
+    const response = await deleteUser(id);
+    res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
