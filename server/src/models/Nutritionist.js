@@ -48,11 +48,11 @@ module.exports = (sequelize) => {
       },
       busyDays: {
         type: DataTypes.JSON,
-        defaultValue: {}, // Set an appropriate initial value
+        defaultValue: {},
       },
       contEventsThisWeek: {
         type: DataTypes.INTEGER,
-        defaultValue: 0, // Set an appropriate initial value
+        defaultValue: 0,
       },
       isActive: {
         type: DataTypes.BOOLEAN,

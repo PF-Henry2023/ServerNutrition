@@ -28,10 +28,11 @@ const deleteEventHandler = async (req, res) => {
 
 const updateEventHandler = async (req, res) => {
   const { id } = req.params;
-  const { date, hour, purpose } = req.body;
+  const { date, hour, purpose, isActive } = req.body;
   try {
     // if(!id) throw Error("El id es obligatorio");
-    const response = await updateEvent(id, date, hour, purpose);
+    const response = await updateEvent(id, date, hour, purpose, isActive);
+
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: "Error updating event" });

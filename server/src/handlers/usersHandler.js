@@ -76,7 +76,7 @@ const loginOauth = async (req, res) => {
   const { tokenId } = req.body; //Encoded token
   try {
     const tokenResponse = await authenticationOauth(tokenId);
-    res.status(200).json({ token: `Bearer ${tokenResponse}` });
+    res.status(200).json({ token: tokenResponse });
   } catch (error) {
     res.status(404).json({ error: error.message });
   }
@@ -146,7 +146,8 @@ const getAllUsersHandler = async (req, res) => {
 
 const activate = async (req, res) => {
   try {
-    const status = await activateUser(req.body);
+    const { id } = req.params;
+    const status = await activateUser(id);
     res.status(200).json(status);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -155,8 +156,9 @@ const activate = async (req, res) => {
 
 const destroy = async (req, res) => {
   try {
-    const status = await deleteUser(req.body);
-    res.status(200).json(status);
+    const { id } = req.params;
+    const response = await deleteUser(id);
+    res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

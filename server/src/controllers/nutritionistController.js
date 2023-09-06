@@ -21,12 +21,10 @@ const getDoctor = async () => {
     if (nutritionistsfromDB.length === 0) {
       throw new Error("No users found in the database!");
     }
-
     const nutritionists = nutritionistsfromDB.map((N) => {
       const nutritionist = N.toJSON();
       return nutritionist;
     });
-
     const Doc = getDoc(nutritionists);
     return Doc;
   } catch (error) {
@@ -172,6 +170,7 @@ const softdeleteN = async (id) => {
 };
 
 const restoreN = async (id) => {
+  console.log(id);
   try {
     if (!id) {
       throw new Error(`No ID provided for restoration!`);
@@ -185,6 +184,8 @@ const restoreN = async (id) => {
     throw new Error(`Error updating nutritionist: ${error.message}`);
   }
 };
+
+
 
 //checkCredentials
 const checkCredentials = async ({ email, password }) => {
@@ -243,6 +244,75 @@ const registerOauthUser = async (data) => {
     return token;
   } catch (error) {
     throw new Error(`Error during OAuth user registration: ${error.message}`);
+  }
+};
+
+//updateBusyD
+const addScheduleS = async (id, dateDetail) => {
+  try {
+    const { date, hour } = dateDetail;
+    const nutritionist = await Nutritionist.findByPk(id);
+    if (!nutritionist) {
+      throw new Error(`nutritionist not found!`);
+    }
+    const busyDays = nutritionist.dataValues.busyDays;
+    if (!busyDays[date]) {
+      busyDays[date] = [];
+    }
+    busyDays[date].push([hour, hour + 1]);
+    await Nutritionist.update(
+      { busyDays },
+      {
+        where: { id },
+      }
+    );
+
+    const updatedNutritionist = await Nutritionist.findByPk(id);
+
+    return updatedNutritionist;
+  } catch (error) {
+    throw new Error(`Error updating nutritionist: ${error.message}`);
+  }
+};
+
+const deleteScheduleS = async (id, dateDetail) => {
+  try {
+    const { date, hour } = dateDetail;
+    const nutritionist = await Nutritionist.findByPk(id);
+    if (!nutritionist) {
+      throw new Error(`Nutritionist not found!`);
+    }
+
+    const busyDays = nutritionist.dataValues.busyDays;
+
+    // Verifica si el día existe en el calendario
+    if (busyDays[date]) {
+      // Filtra los horarios que no coinciden con el horario que se desea eliminar
+      busyDays[date] = busyDays[date].filter(([start, end]) => {
+        return start !== hour || end !== hour + 1;
+      });
+
+      // Elimina el día si ya no tiene horarios ocupados
+      if (busyDays[date].length === 0) {
+        delete busyDays[date];
+      }
+
+      // Actualiza el registro del nutricionista con el calendario modificado
+      await Nutritionist.update(
+        { busyDays },
+        {
+          where: { id },
+        }
+      );
+
+      const updatedNutritionist = await Nutritionist.findByPk(id);
+
+      return updatedNutritionist;
+    } else {
+      throw new Error(`No busy schedule for the specified date: ${date}`);
+    }
+  } catch (error) {
+    throw new Error(`Error updating nutritionist: ${error.message}`);
   }
 };
 
