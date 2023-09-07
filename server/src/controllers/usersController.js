@@ -178,9 +178,9 @@ const getAllUsers = async () => {
 };
 
 // delete user
-<<<<<<< HEAD
 const deleteUser = async ({ id }) => {
   /* const { id } = jwt.verify(token, process.env.SECRET_KEY); */
+  try {
   const user = await User.findOne({ where: { id, isActive: true } });
   if (!user) {
     return {
@@ -188,14 +188,6 @@ const deleteUser = async ({ id }) => {
     };
   }
   await User.update({ isActive: false }, { where: { id } });
-=======
-const deleteUser = async (id) => {
-  console.log(id);
-  try {
-    if (!id) {
-      throw new Error(`No ID provided for deletion.`);
-    }
->>>>>>> 64876e42e401049b65ac9f1b245015529e35811c
 
     const deletedNutritionist = await User.findOne({
       where: { id, isActive: true },
