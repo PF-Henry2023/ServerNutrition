@@ -32,6 +32,7 @@ const updateEventHandler = async (req, res) => {
   try {
     // if(!id) throw Error("El id es obligatorio");
     const response = await updateEvent(id, date, hour, purpose, isActive);
+
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: "Error updating event" });
@@ -48,14 +49,14 @@ const getEventByIdHandler = async (req, res) => {
   }
 };
 
-const getAllEventsHandler = async(req,res) => {
-    try {
-        const response = await getAllEvents();
-        res.status(200).json(response);
-    } catch (error) {
-        res.status(400).json({error: "error getting events"})
-    }
-}
+const getAllEventsHandler = async (req, res) => {
+  try {
+    const response = await getAllEvents();
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ error: "error getting events" });
+  }
+};
 
 module.exports = {
   createEventHandler,
