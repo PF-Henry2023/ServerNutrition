@@ -178,41 +178,23 @@ const getAllUsers = async () => {
 };
 
 // delete user
-const deleteUser = async (id) => {
-  console.log(id);
-  try {
-    if (!id) {
-      throw new Error(`No ID provided for deletion.`);
-    }
-
-    const deletedNutritionist = await User.findOne({
-      where: { id, isActive: true },
-    });
-
-// delete user
 const deleteUser = async ({ id }) => {
-  /* const { id } = jwt.verify(token, process.env.SECRET_KEY); */
-  const user = await User.findOne({ where: { id, isActive: true } });
-  if (!user) {
-    return {
-      status: "User not found",
-    };
-
-    if (!deletedNutritionist) {
-      throw new Error(`Nutritionist with ID ${id} not found.`);
+  try {
+    const user = await User.findOne({ where: { id, isActive: true } });
+    if (!user) {
+      return {
+        status: "User not found",
+      };
     }
-
     await User.update({ isActive: false }, { where: { id } });
-
-    return deletedNutritionist;
+    return user; // Devuelve el usuario eliminado
   } catch (error) {
-    throw new Error(`Error deleting nutritionist: ${error.message}`);
-
+    throw new Error(`Error deleting user: ${error.message}`);
   }
 };
 //activado user
 const activateUser = async ( id ) => {
-  console.log(id);
+  console.log(id);//hola
   try {
     if (!id) {
       throw new Error(`No ID provided for restoration!`);
@@ -232,7 +214,6 @@ const activateUser = async ( id ) => {
 module.exports = {
   createUserDB,
   deleteUser,
-
   updateUser,
   getAllUsers,
   authentication,
@@ -240,5 +221,5 @@ module.exports = {
   newUserOauth,
   authenticationOauth,
   activateUser,
-  getUserDetail,
-};
+  getUserDetail
+}
