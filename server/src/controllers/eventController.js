@@ -20,17 +20,17 @@ const createEvent = async (eventData) => {
     }
 
     //*---------notificaciones
-    const userEmail = user.dataValues.email;
+   /*  const userEmail = user.dataValues.email;
     const userName = `${user.dataValues.name} ${user.dataValues.lastName}`;
     const nutritionistName = `${nutritionist.dataValues.name} ${nutritionist.dataValues.lastName}`;
-    const nutritionistEmail = nutritionist.dataValues.email;
+    const nutritionistEmail = nutritionist.dataValues.email; */
     //*funcion para enviar la notificación al usuario y nutricionista apenas se cree la cita:
-    eventData.hour = Number(eventData.hour.split(":")[0]);
+    //eventData.hour = Number(eventData.hour.split(":")[0]);
     const event = await Event.create(eventData);
 
-    sendEmailCreateEvent(userEmail, event, nutritionistName);
+    /* sendEmailCreateEvent(userEmail, event, nutritionistName);
     sendEmailNutritionist(nutritionistEmail, event, userName);
-    sendAdvanceNotifications(userEmail);
+    sendAdvanceNotifications(userEmail); */
     //*---------fin noti
 
     return event;

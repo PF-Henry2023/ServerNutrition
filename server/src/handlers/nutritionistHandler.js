@@ -17,9 +17,8 @@ const {
 const { getHorarioTrabajoCombinado } = require("../Utils/nutritionistUtils.js");
 
 const getMyDoctor = async (req, res) => {
-  const { day, hour } = req.body;
   try {
-    const response = await getDoctor(day, hour);
+    const response = await getDoctor();
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: error.message });

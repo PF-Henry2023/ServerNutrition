@@ -151,9 +151,6 @@ const updateUser = async (token, data) => {
     "lastName",
     "email",
     "password",
-    "phone",
-    "image",
-    "address",
   ];
   const updateFields = Object.keys(data);
   const invalidFields = updateFields.filter(
@@ -192,6 +189,15 @@ const deleteUser = async (id) => {
       where: { id, isActive: true },
     });
 
+// delete user
+const deleteUser = async ({ id }) => {
+  /* const { id } = jwt.verify(token, process.env.SECRET_KEY); */
+  const user = await User.findOne({ where: { id, isActive: true } });
+  if (!user) {
+    return {
+      status: "User not found",
+    };
+
     if (!deletedNutritionist) {
       throw new Error(`Nutritionist with ID ${id} not found.`);
     }
@@ -201,6 +207,7 @@ const deleteUser = async (id) => {
     return deletedNutritionist;
   } catch (error) {
     throw new Error(`Error deleting nutritionist: ${error.message}`);
+
   }
 };
 //activado user

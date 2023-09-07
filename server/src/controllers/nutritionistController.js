@@ -5,7 +5,7 @@ require("dotenv").config();
 const { decodeTokenOauth } = require("../Utils/google");
 const { getDoc } = require("../Utils/nutritionistUtils");
 
-const getDoctor = async (day, hour) => {
+/* const getDoctor = async (day, hour) => {
   try {
     const nutritionistsfromDB = await Nutritionist.findAll({
       include: [
@@ -42,6 +42,39 @@ const getDoctor = async (day, hour) => {
     return Doc;
   } catch (error) {
     throw new Error(`Error x: ${error.message}`);
+  }
+}; */
+
+const getDoctor = async () => {
+  try {
+    const nutritionistsfromDB = await Nutritionist.findAll({
+      include: [
+        {
+          model: Event,
+        },
+      ],
+    });
+
+    if (nutritionistsfromDB.length === 0) {
+      throw new Error("No users found in the database!");
+    }
+
+    // Calcula la cantidad de eventos para cada nutricionista
+    const nutritionistsWithEventCount = nutritionistsfromDB.map((N) => {
+      const nutritionist = N.toJSON();
+      const eventCount = nutritionist.Events.length;
+      return { nutritionist, eventCount };
+    });
+
+    // Ordena la lista de nutricionistas por la cantidad de eventos en orden ascendente
+    nutritionistsWithEventCount.sort((a, b) => a.eventCount - b.eventCount);
+
+    // Encuentra al nutricionista con la menor cantidad de eventos
+    const nutritionistWithFewestEvents = nutritionistsWithEventCount[0].nutritionist;
+
+    return nutritionistWithFewestEvents;
+  } catch (error) {
+    throw new Error(`Error: ${error.message}`);
   }
 };
 
@@ -103,7 +136,7 @@ const getOneN = async (data) => {
 // Actualizar un usuario
 const updateN = async (id, data) => {
   try {
-    const allowedFields = ["name", "lastName", "email", "image", "password"];
+    const allowedFields = ["name", "lastName", "email", "password"];
 
     // Verificar que solo los campos permitidos sean modificados
     const updateFields = Object.keys(data);

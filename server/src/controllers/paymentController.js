@@ -16,7 +16,7 @@ const createSession = async (req, res) => {
           currency: "usd" /* tipo de moneda */,
           unit_amount: 5500 /* se coloca en centavos el monto del producto: seria igual a 55.00 dolares*/,
         },
-        quantity: 2 /* cantidad de productos que se compran  */,
+        quantity: 1 /* cantidad de productos que se compran  */,
       },
       /*  
             {
