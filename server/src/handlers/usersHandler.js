@@ -156,14 +156,9 @@ const activate = async (req, res) => {
 
 const destroy = async (req, res) => {
   try {
-<<<<<<< HEAD
-    const status = await deleteUser(req.params);
-    res.status(200).json(status);
-=======
     const { id } = req.params;
     const response = await deleteUser(id);
     res.status(200).json(response);
->>>>>>> 64876e42e401049b65ac9f1b245015529e35811c
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
