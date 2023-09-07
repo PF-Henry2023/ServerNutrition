@@ -194,7 +194,7 @@ const deleteUser = async ({ id }) => {
 };
 //activado user
 const activateUser = async ( id ) => {
-  console.log(id);
+  console.log(id);//hola
   try {
     if (!id) {
       throw new Error(`No ID provided for restoration!`);
