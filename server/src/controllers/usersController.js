@@ -177,23 +177,8 @@ const getAllUsers = async () => {
   }
 };
 
-//activado user
-const activateUser = async ({ id }) => {
-  /**const { id } = jwt.verify(token, process.env.SECRET_KEY);**/
-  const user = await User.findOne({ where: { id, isActive: false } });
-  if (!user) {
-    return {
-      status: "User not found",
-    };
-  }
-  await User.update({ isActive: true }, { where: { id } });
-
-  return {
-    status: "Activated successfully",
-  };
-};
-
 // delete user
+<<<<<<< HEAD
 const deleteUser = async ({ id }) => {
   /* const { id } = jwt.verify(token, process.env.SECRET_KEY); */
   const user = await User.findOne({ where: { id, isActive: true } });
@@ -203,11 +188,48 @@ const deleteUser = async ({ id }) => {
     };
   }
   await User.update({ isActive: false }, { where: { id } });
+=======
+const deleteUser = async (id) => {
+  console.log(id);
+  try {
+    if (!id) {
+      throw new Error(`No ID provided for deletion.`);
+    }
+>>>>>>> 64876e42e401049b65ac9f1b245015529e35811c
 
-  return {
-    status: "Deleted successfully",
-  };
+    const deletedNutritionist = await User.findOne({
+      where: { id, isActive: true },
+    });
+
+    if (!deletedNutritionist) {
+      throw new Error(`Nutritionist with ID ${id} not found.`);
+    }
+
+    await User.update({ isActive: false }, { where: { id } });
+
+    return deletedNutritionist;
+  } catch (error) {
+    throw new Error(`Error deleting nutritionist: ${error.message}`);
+  }
 };
+//activado user
+const activateUser = async ( id ) => {
+  console.log(id);
+  try {
+    if (!id) {
+      throw new Error(`No ID provided for restoration!`);
+    }
+    await User.update({ isActive: true }, { where: { id } });
+
+    const restoredNutritionist = await User.findByPk(id);
+
+    return restoredNutritionist;
+  } catch (error) {
+    throw new Error(`Error updating nutritionist: ${error.message}`);
+  }
+};
+
+
 
 module.exports = {
   createUserDB,

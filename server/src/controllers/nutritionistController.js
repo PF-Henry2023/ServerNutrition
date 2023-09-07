@@ -216,6 +216,7 @@ const softdeleteN = async (id) => {
 };
 
 const restoreN = async (id) => {
+  console.log(id);
   try {
     if (!id) {
       throw new Error(`No ID provided for restoration!`);
@@ -229,6 +230,8 @@ const restoreN = async (id) => {
     throw new Error(`Error updating nutritionist: ${error.message}`);
   }
 };
+
+
 
 //checkCredentials
 const checkCredentials = async ({ email, password }) => {
