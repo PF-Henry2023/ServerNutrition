@@ -28,7 +28,7 @@ usersRouter.put("/update", ensureToken, updateUserHanlder);
 usersRouter.get("/:id", userId);
 
 /* usersRouter.delete("/", deleteUserHandler); */
-usersRouter.delete("/delete", ensureToken, destroy);
+usersRouter.delete("/delete/:id", ensureToken, destroy);
 usersRouter.delete("/activate", ensureToken, activate);
 usersRouter.post("/signup", signup);
 // logueo con terceros(Google)

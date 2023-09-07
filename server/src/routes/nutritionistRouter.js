@@ -22,7 +22,7 @@ nutritionistRouter.post("/create", createNutritionist);
 //get
 nutritionistRouter.get("/list", getAllNutritionists);
 nutritionistRouter.get("/searchBy", getOneNutritionist);
-nutritionistRouter.post("/myDoctor", getMyDoctor);
+nutritionistRouter.get("/myDoctor", getMyDoctor);
 nutritionistRouter.get("/horariosCombinados", gethorariosCombinados);
 
 //delte

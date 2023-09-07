@@ -151,9 +151,6 @@ const updateUser = async (token, data) => {
     "lastName",
     "email",
     "password",
-    "phone",
-    "image",
-    "address",
   ];
   const updateFields = Object.keys(data);
   const invalidFields = updateFields.filter(
@@ -198,7 +195,7 @@ const activateUser = async ({ id }) => {
 
 // delete user
 const deleteUser = async ({ id }) => {
-  /**const { id } = jwt.verify(token, process.env.SECRET_KEY);**/
+  /* const { id } = jwt.verify(token, process.env.SECRET_KEY); */
   const user = await User.findOne({ where: { id, isActive: true } });
   if (!user) {
     return {

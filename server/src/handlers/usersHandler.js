@@ -155,7 +155,7 @@ const activate = async (req, res) => {
 
 const destroy = async (req, res) => {
   try {
-    const status = await deleteUser(req.body);
+    const status = await deleteUser(req.params);
     res.status(200).json(status);
   } catch (error) {
     res.status(400).json({ error: error.message });
