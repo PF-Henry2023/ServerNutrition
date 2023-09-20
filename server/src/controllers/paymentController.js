@@ -4,11 +4,11 @@ const stripe = new Stripe(STRIPE_PRIVATE_KEY);
 
 const createSession = async (req, res) => {
   const session = await stripe.checkout.sessions.create({
-    /*funcion para generar una orden de compra */
+    /*funcion para generar una orden de compra*/
     line_items: [
       {
         price_data: {
-          /* para especificar cual es el nombre del producto */
+          /* para especificar cual es el nombre del producto*/
           product_data: {
             name: "Cita Nutricionista",
             description: "orden de cita con el nutricionista",
