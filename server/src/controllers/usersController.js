@@ -5,7 +5,7 @@ const { decodeTokenOauth } = require("../Utils/google");
 require("dotenv").config();
 const { sendEmailNotification } = require("../Utils/Notifications");
 
-//Crea un usuario en la DB:
+//Crea un usuario en la DB:.
 
 const createUserDB = async ({
   name,

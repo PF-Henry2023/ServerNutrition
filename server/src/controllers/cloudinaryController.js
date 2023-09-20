@@ -11,8 +11,8 @@ cloudinary.config({
   const docxPublicId = `filesZucca/${name} ${lastName}.docx`;
 
   try {
-    // Si no se produce un error, significa que el archivo .docx existe
-    // Genera la URL segura y firmada para el archivo .docx
+    // Si no se produce un error, significa que el archivo .docx existe.
+    // Genera la URL segura y firmada para el archivo .docx.
     const url = cloudinary.url(docxPublicId, {
       secure: true,
       sign_url: true,
