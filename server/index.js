@@ -8,4 +8,4 @@ sequelize.sync({ alter: true }).then(() => {
   server.listen(PORT, () => {
     console.log(`Server raise in PORT: ${PORT}`);
   });
-});
+});//comentario
